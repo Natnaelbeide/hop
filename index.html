@@ -1,0 +1,350 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>House of Prayer</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- W3.CSS & Fonts -->
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-card" id="myNavbar">
+    <a href="#home" class="w3-bar-item w3-button w3-wide">HOUSE OF PRAYER</a>
+    <!-- Right-sided navbar links -->
+    <div class="w3-right w3-hide-small">
+      <a href="#about" class="w3-bar-item w3-button">ABOUT</a>
+      <a href="#team" class="w3-bar-item w3-button"><i class="fa fa-user"></i> MINISTRY</a>
+      <a href="#work" class="w3-bar-item w3-button"><i class="fa fa-th"></i> MEDIA</a>
+      <a href="#pricing" class="w3-bar-item w3-button"><i class="fa fa-calendar"></i> SERVICES</a>
+      <a href="#contact" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i> CONTACT</a>
+    </div>
+    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+</div>
+
+<!-- Sidebar on small screens when clicking the menu icon -->
+<nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close &times;</a>
+  <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">ABOUT</a>
+  <a href="#team" onclick="w3_close()" class="w3-bar-item w3-button">MINISTRY</a>
+  <a href="#work" onclick="w3_close()" class="w3-bar-item w3-button">MEDIA</a>
+  <a href="#pricing" onclick="w3_close()" class="w3-bar-item w3-button">SERVICES</a>
+  <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">CONTACT</a>
+</nav>
+
+<!-- Header with full-height image -->
+<header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
+  <div class="w3-display-left w3-text-white" style="padding:48px">
+    <span class="w3-jumbo w3-hide-small">House of Prayer</span><br>
+    <span class="w3-xxlarge w3-hide-large w3-hide-medium">House of Prayer</span><br>
+    <span class="w3-large">A place of worship, fellowship, and prayer for all nations.</span>
+    <p><a href="#about" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Learn more</a></p>
+  </div> 
+  <div class="w3-display-bottomleft w3-text-grey w3-large" style="padding:24px 48px">
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-youtube-play w3-hover-opacity"></i>
+    <i class="fa fa-soundcloud w3-hover-opacity"></i>
+  </div>
+</header>
+
+<!-- About Section with Slider -->
+<div class="w3-container" style="padding:128px 16px" id="about">
+  <h3 class="w3-center">ABOUT HOUSE OF PRAYER</h3>
+  <p class="w3-center w3-large">A place of worship, fellowship, and spiritual growth</p>
+
+  <div class="about-slider-container">
+    <div class="slide">
+
+      <!-- Slide 1 - Main Worship Hall -->
+      <div
+        class="item"
+        style="
+          background-image: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop');
+        "
+      >
+        <div class="content">
+          <div class="name">Worship Gathering</div>
+          <div class="des">"For where two or three gather in My name, there am I with them." &mdash; Matthew 18:20</div>
+          <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+            Join Us
+          </button>
+        </div>
+      </div>
+
+      <!-- Slide 2 - Music & Worship -->
+      <div
+        class="item"
+        style="
+          background-image: url('https://images.unsplash.com/photo-1523428096881-5bd79d043006?q=80&w=1200&auto=format&fit=crop');
+        "
+      >
+        <div class="content">
+          <div class="name">Praise & Worship</div>
+          <div class="des">"Let everything that has breath praise the Lord." &mdash; Psalm 150:6</div>
+          <button onclick="document.getElementById('work').scrollIntoView({behavior:'smooth'})">
+            View Media
+          </button>
+        </div>
+      </div>
+
+      <!-- Slide 3 - Community & Fellowship -->
+      <div
+        class="item"
+        style="
+          background-image: url('https://images.unsplash.com/photo-1532186650952-354f3d2b3e86?q=80&w=1200&auto=format&fit=crop');
+        "
+      >
+        <div class="content">
+          <div class="name">Fellowship</div>
+          <div class="des">"They devoted themselves to fellowship, breaking of bread, and prayer." &mdash; Acts 2:42</div>
+          <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+            Connect
+          </button>
+        </div>
+      </div>
+
+      <!-- Slide 4 - Prayer & Intercession -->
+      <div
+        class="item"
+        style="
+          background-image: url('https://images.unsplash.com/photo-1489515217757-5fd1be406fef?q=80&w=1200&auto=format&fit=crop');
+        "
+      >
+        <div class="content">
+          <div class="name">Prayer Ministry</div>
+          <div class="des">"My house shall be called a house of prayer for all nations." &mdash; Isaiah 56:7</div>
+          <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+            Request Prayer
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Navigation Arrows -->
+    <div class="about-slider-nav">
+      <button class="about-prev">&larr;</button>
+      <button class="about-next">&rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- Team / Ministry Section -->
+<div class="w3-container" style="padding:128px 16px" id="team">
+  <h3 class="w3-center">MINISTRY TEAM</h3>
+  <p class="w3-center w3-large">Servants who help lead House of Prayer</p>
+  <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-card">
+        <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?q=80&w=800&auto=format&fit=crop" alt="Lead Pastor" style="width:100%">
+        <div class="w3-container">
+          <h3>Lead Pastor</h3>
+          <p class="w3-opacity">Senior Pastor</p>
+          <p>Teaching, preaching, and shepherding the church family in the Word and prayer.</p>
+          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>
+        </div>
+      </div>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-card">
+        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800&auto=format&fit=crop" alt="Worship Leader" style="width:100%">
+        <div class="w3-container">
+          <h3>Worship Leader</h3>
+          <p class="w3-opacity">Music & Worship</p>
+          <p>Leading the congregation into the presence of God through Spirit-led worship.</p>
+          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>
+        </div>
+      </div>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-card">
+        <img src="https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?q=80&w=800&auto=format&fit=crop" alt="Youth Leader" style="width:100%">
+        <div class="w3-container">
+          <h3>Youth Leader</h3>
+          <p class="w3-opacity">Next Generation</p>
+          <p>Discipling youth and young adults to follow Jesus in every area of life.</p>
+          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>
+        </div>
+      </div>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <div class="w3-card">
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop" alt="Prayer Team" style="width:100%">
+        <div class="w3-container">
+          <h3>Prayer Team</h3>
+          <p class="w3-opacity">Intercession</p>
+          <p>Standing in prayer for families, city, and nations, believing God for miracles.</p>
+          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Promo Section "We know design" (repurposed) -->
+<div class="w3-container w3-light-grey" style="padding:128px 16px">
+  <div class="w3-row-padding">
+    <div class="w3-col m6">
+      <h3>Our Mission.</h3>
+      <p>House of Prayer exists to lift up the name of Jesus, make disciples, and be a light in our community.</p>
+      <p>We believe in the power of prayer, the authority of Scripture, and the work of the Holy Spirit in everyday life.</p>
+      <p><a href="#contact" class="w3-button w3-black"><i class="fa fa-heart"></i> Get Involved</a></p>
+    </div>
+    <div class="w3-col m6">
+      <img class="w3-image w3-round-large" src="https://images.unsplash.com/photo-1517627043994-b991abb62b67?q=80&w=1200&auto=format&fit=crop" alt="Prayer" width="700" height="394">
+    </div>
+  </div>
+</div>
+
+<!-- Promo Section "Statistics" (repurposed as highlights) -->
+<div class="w3-container w3-row w3-center w3-dark-grey w3-padding-64">
+  <div class="w3-quarter">
+    <span class="w3-xxlarge">3+</span>
+    <br>Weekly Gatherings
+  </div>
+  <div class="w3-quarter">
+    <span class="w3-xxlarge">5+</span>
+    <br>Ministry Teams
+  </div>
+  <div class="w3-quarter">
+    <span class="w3-xxlarge">10+</span>
+    <br>Community Outreaches
+  </div>
+  <div class="w3-quarter">
+    <span class="w3-xxlarge">1</span>
+    <br>Family in Christ
+  </div>
+</div>
+
+<!-- Media / Work Section -->
+<div class="w3-container" style="padding:128px 16px" id="work">
+  <h3 class="w3-center">MEDIA & MOMENTS</h3>
+  <p class="w3-center w3-large">Snapshots of worship, community, and outreach</p>
+
+  <div class="w3-row-padding" style="margin-top:64px">
+    <div class="w3-col l3 m6">
+      <img src="https://images.unsplash.com/photo-1504164996022-09080787b475?q=80&w=1200&auto=format&fit=crop" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Worship Night">
+    </div>
+    <div class="w3-col l3 m6">
+      <img src="https://images.unsplash.com/photo-1512758017271-d7b84c2113f1?q=80&w=1200&auto=format&fit=crop" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Youth Gathering">
+    </div>
+    <div class="w3-col l3 m6">
+      <img src="https://images.unsplash.com/photo-1487621167305-5d248087c724?q=80&w=1200&auto=format&fit=crop" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Prayer Meeting">
+    </div>
+    <div class="w3-col l3 m6">
+      <img src="https://images.unsplash.com/photo-1481639832211-nyqUnXXAodb1?q=80&w=1200&auto=format&fit=crop" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="Community Outreach">
+    </div>
+  </div>
+</div>
+
+<!-- Modal for full size images on click-->
+<div id="modal01" class="w3-modal w3-black" onclick="this.style.display='none'">
+  <span class="w3-button w3-xxlarge w3-black w3-padding-large w3-display-topright" title="Close Modal Image">&times;</span>
+  <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+    <img id="img01" class="w3-image">
+    <p id="caption" class="w3-opacity w3-large"></p>
+  </div>
+</div>
+
+<!-- Services / Schedule Section (using Pricing layout) -->
+<div class="w3-container w3-center w3-dark-grey" style="padding:128px 16px" id="pricing">
+  <h3>SERVICE TIMES</h3>
+  <p class="w3-large">Gatherings at House of Prayer</p>
+  <div class="w3-row-padding" style="margin-top:64px">
+    <div class="w3-third w3-section">
+      <ul class="w3-ul w3-white w3-hover-shadow">
+        <li class="w3-black w3-xlarge w3-padding-32">Sunday</li>
+        <li class="w3-padding-16"><b>10:00 AM</b> Worship Service</li>
+        <li class="w3-padding-16"><b>Children's</b> Ministry</li>
+        <li class="w3-padding-16"><b>Prayer</b> &amp; Altar Ministry</li>
+        <li class="w3-padding-16"><b>Fellowship</b> After Service</li>
+        <li class="w3-light-grey w3-padding-24">
+          <span class="w3-opacity">All are welcome</span>
+        </li>
+      </ul>
+    </div>
+    <div class="w3-third">
+      <ul class="w3-ul w3-white w3-hover-shadow">
+        <li class="w3-red w3-xlarge w3-padding-48">Midweek</li>
+        <li class="w3-padding-16"><b>Wednesday</b> Prayer Night</li>
+        <li class="w3-padding-16"><b>7:00 PM</b> Worship &amp; Word</li>
+        <li class="w3-padding-16"><b>Small</b> Group Moments</li>
+        <li class="w3-padding-16"><b>Online</b> &amp; In-Person</li>
+        <li class="w3-light-grey w3-padding-24">
+          <span class="w3-opacity">Come as you are</span>
+        </li>
+      </ul>
+    </div>
+    <div class="w3-third w3-section">
+      <ul class="w3-ul w3-white w3-hover-shadow">
+        <li class="w3-black w3-xlarge w3-padding-32">Youth / Special</li>
+        <li class="w3-padding-16"><b>Youth</b> Nights</li>
+        <li class="w3-padding-16"><b>Outreach</b> Events</li>
+        <li class="w3-padding-16"><b>Workshops</b> &amp; Classes</li>
+        <li class="w3-padding-16"><b>Check</b> Announcements</li>
+        <li class="w3-light-grey w3-padding-24">
+          <span class="w3-opacity">Follow our calendar</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Section -->
+<div class="w3-container w3-light-grey" style="padding:128px 16px" id="contact">
+  <h3 class="w3-center">CONTACT</h3>
+  <p class="w3-center w3-large">We would love to hear from you</p>
+  <div style="margin-top:48px">
+    <p><i class="fa fa-map-marker fa-fw w3-xxlarge w3-margin-right"></i> Your City, State</p>
+    <p><i class="fa fa-phone fa-fw w3-xxlarge w3-margin-right"></i> Phone: (000) 000-0000</p>
+    <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email: info@houseofprayer.org</p>
+    <br>
+    <form action="mailto:info@houseofprayer.org" method="post" enctype="text/plain">
+      <p><input class="w3-input w3-border" type="text" placeholder="Name" required name="Name"></p>
+      <p><input class="w3-input w3-border" type="text" placeholder="Email" required name="Email"></p>
+      <p><input class="w3-input w3-border" type="text" placeholder="Subject" required name="Subject"></p>
+      <p><textarea class="w3-input w3-border" placeholder="Message" required name="Message" rows="4"></textarea></p>
+      <p>
+        <button class="w3-button w3-black" type="submit">
+          <i class="fa fa-paper-plane"></i> SEND MESSAGE
+        </button>
+      </p>
+    </form>
+    <!-- Map / image -->
+    <img src="https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?q=80&w=1200&auto=format&fit=crop" class="w3-image w3-greyscale" style="width:100%;margin-top:48px" alt="Map or City">
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-64">
+  <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>Back to top</a>
+  <div class="w3-xlarge w3-section">
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-youtube-play w3-hover-opacity"></i>
+    <i class="fa fa-soundcloud w3-hover-opacity"></i>
+  </div>
+  <p>&copy; <span id="year"></span> House of Prayer. All rights reserved.</p>
+</footer>
+
+<!-- Custom Scripts -->
+<script src="script.js"></script>
+
+
+</body>
+</html>
+
+
+
