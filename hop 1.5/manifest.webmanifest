@@ -1,0 +1,8 @@
+{
+  "name": "Bible90",
+  "short_name": "Bible90",
+  "start_url": "./index.html#home",
+  "display": "standalone",
+  "background_color": "#0b0f17",
+  "theme_color": "#0b0f17"
+}
