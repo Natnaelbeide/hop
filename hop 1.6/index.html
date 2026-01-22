@@ -1,0 +1,1292 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#07080c" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Bible90" />
+  <title>Bible90 — 90-Day Checklist</title>
+
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Crect width='180' height='180' rx='36' fill='%230b0f17'/%3E%3Cpath d='M90 35c19 0 35 16 35 35v55c0 5-4 9-9 9H64c-5 0-9-4-9-9V70c0-19 16-35 35-35z' fill='%23121a29' stroke='%237aa2ff' stroke-width='3'/%3E%3Cpath d='M90 55v70M60 90h60' stroke='%2347d18c' stroke-width='10' stroke-linecap='round'/%3E%3C/svg%3E" />
+
+  <style>
+    :root{
+      --bg:#07080c; --panel:#0f1118; --panel2:#0b0d13; --text:#f3f5ff; --muted:#b9c0d9;
+      --accent:#1e4ed8; --gold:#d4af37; --good:#47d18c; --warn:#ffcc66; --bad:#ff6b6b; --line:rgba(255,255,255,.10);
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --radius: 14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:var(--sans); color:var(--text);
+      background: radial-gradient(1100px 650px at 15% 10%, rgba(122,162,255,.15), transparent 60%),
+                  radial-gradient(850px 560px at 90% 18%, rgba(71,209,140,.12), transparent 55%),
+                  radial-gradient(900px 650px at 50% 112%, rgba(255,204,102,.10), transparent 55%),
+                  var(--bg);
+      min-height:100vh;
+      padding-bottom: calc(env(safe-area-inset-bottom) + 18px);
+    }
+
+    .siteHeader{
+      position: sticky; top:0; z-index:50;
+      backdrop-filter: blur(12px);
+      background: rgba(11,15,23,.78);
+      border-bottom:1px solid var(--line);
+      padding-top: env(safe-area-inset-top);
+    }
+    .wrap{max-width:1100px; margin:0 auto; padding:14px 14px;}
+    .navWrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+    .brand{display:flex; align-items:center; gap:10px;}
+    .logoDot{width:36px; height:36px; border-radius:12px;
+      background: radial-gradient(circle at 30% 30%, rgba(122,162,255,.9), rgba(71,209,140,.35));
+      border:1px solid rgba(255,255,255,.12);
+    }
+
+    .logoImg{width:36px; height:36px; border-radius:12px; border:1px solid rgba(255,255,255,.12); object-fit:cover; background: rgba(0,0,0,.35);}
+    .brandName{font-weight:900; letter-spacing:.2px}
+    .brandTag{font-size:12px; color:var(--muted); margin-top:2px}
+
+    .navToggle{
+      display:none;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding:8px 10px;
+      border-radius:12px;
+      font-weight:800;
+    }
+    nav.nav{display:flex; align-items:center; gap:12px; flex-wrap:wrap;}
+    nav.nav a{color:var(--muted); text-decoration:none; font-weight:800; font-size:13px}
+    nav.nav a:hover{color:var(--text)}
+    nav.nav a.active{color: var(--text); text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px}
+    .navBtn{
+      padding:9px 12px; border-radius:12px;
+      background: rgba(212,175,55,.12);
+      border:1px solid rgba(212,175,55,.40);
+      color:var(--text) !important;
+      text-decoration:none !important;
+    }
+    @media (max-width:860px){
+      .navToggle{display:block;}
+      nav.nav{
+        display:none;
+        width:100%;
+        margin-top:10px;
+        padding:10px;
+        border:1px solid var(--line);
+        border-radius:14px;
+        background: rgba(18,26,41,.65);
+      }
+      nav.nav.open{display:flex;}
+    }
+
+    .pill{
+      border:1px solid var(--line);
+      padding:7px 10px; border-radius:999px; font-size:12px; color:var(--muted);
+      background: rgba(18,26,41,.55);
+      display:inline-flex; gap:8px; align-items:center;
+    }
+    .pill strong{color:var(--text); font-weight:800}
+    .mono{font-family:var(--mono)}
+    .btnPrimary{
+      display:inline-flex; justify-content:center; align-items:center;
+      padding:10px 12px; border-radius:12px;
+      background: linear-gradient(180deg, rgba(212,175,55,.22), rgba(30,78,216,.18));
+      border:1px solid rgba(212,175,55,.55);
+      color: var(--text);
+      font-weight:900; text-decoration:none;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btnGhost{
+      display:inline-flex; justify-content:center; align-items:center;
+      padding:10px 12px; border-radius:12px;
+      background: rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      color: var(--text);
+      font-weight:900;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btnDanger{
+      display:inline-flex; justify-content:center; align-items:center;
+      padding:10px 12px; border-radius:12px;
+      background: rgba(255,107,107,.14);
+      border:1px solid rgba(255,107,107,.45);
+      color: var(--text);
+      font-weight:900;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btnSmall{padding:8px 10px; border-radius:10px; font-size:12px}
+    .btnPrimary:active,.btnGhost:active,.btnDanger:active{transform: translateY(1px)}
+    .card{
+      background: linear-gradient(180deg, rgba(18,26,41,.92), rgba(15,22,36,.90));
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .hd{
+      padding:12px 12px 10px;
+      border-bottom:1px solid var(--line);
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px; flex-wrap:wrap;
+    }
+    .hd h2{margin:0; font-size:13px}
+    .mini{color:var(--muted); font-size:12px; margin-top:2px}
+    .bd{padding:12px}
+    .divider{height:1px; background: var(--line); margin:12px 0}
+    .hint{font-size:12px; color:var(--muted); line-height:1.35}
+    .toast{
+      position:fixed; left:50%; bottom: calc(env(safe-area-inset-bottom) + 14px);
+      transform:translateX(-50%);
+      background: rgba(18,26,41,.92);
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:10px 12px;
+      color: var(--text);
+      font-size:12px;
+      box-shadow: var(--shadow);
+      display:none; z-index:60;
+    }
+    .toast.show{display:block; animation: pop .15s ease}
+    @keyframes pop{from{transform:translateX(-50%) translateY(8px); opacity:0} to{transform:translateX(-50%) translateY(0); opacity:1}}
+
+    .page{display:none}
+    .page.active{display:block}
+    .section{padding:14px 0;}
+    .sectionAlt{padding:14px 0; background: rgba(255,255,255,.02); border-top:1px solid rgba(255,255,255,.05); border-bottom:1px solid rgba(255,255,255,.05)}
+    .kicker{font-size:12px; color:var(--muted); font-weight:900; letter-spacing:.2px}
+    .heroTitle{margin:8px 0 6px; font-size:34px; line-height:1.06}
+    .heroSub{margin:0; color:var(--muted); font-size:14px; line-height:1.4; max-width:60ch}
+    .heroGrid{display:grid; grid-template-columns: 1.2fr .8fr; gap:14px; align-items:stretch;}
+    @media (max-width:860px){ .heroGrid{grid-template-columns:1fr;} .heroTitle{font-size:30px} }
+    .heroCard{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(18,26,41,.92), rgba(15,22,36,.90));
+      box-shadow: var(--shadow);
+      padding:14px;
+    }
+    .heroCardTitle{font-size:12px; color:var(--muted); font-weight:900}
+    .heroCardBig{font-size:22px; font-weight:950; margin-top:6px}
+    .heroCardSmall{font-size:13px; color:var(--muted); margin-top:6px; line-height:1.35}
+    .heroBtns{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
+    .threeGrid{display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;}
+    @media (max-width:860px){ .threeGrid{grid-template-columns:1fr;} }
+    .infoCard, .actionCard{
+      border:1px solid var(--line);
+      border-radius: 14px;
+      padding:12px;
+      background: rgba(255,255,255,.04);
+    }
+    .infoTitle, .actionTitle{font-weight:950}
+    .infoText, .actionText{color:var(--muted); font-size:13px; margin-top:6px; line-height:1.35}
+    .linkBtn{
+      display:inline-flex; margin-top:10px;
+      background: transparent; border:none;
+      color: rgba(122,162,255,.95);
+      font-weight:950;
+      text-decoration:none;
+      padding:0;
+      cursor:pointer;
+    }
+    .ctaBox{
+      display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      padding:14px;
+      background: rgba(122,162,255,.08);
+    }
+
+    /* Tracker */
+    .grid{max-width:1100px; margin:0 auto; padding:14px; display:grid; gap:12px;}
+    .kpis{display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;}
+    @media (max-width: 420px){ .kpis{grid-template-columns:1fr} }
+    .kpi{background: rgba(255,255,255,.05); border:1px solid var(--line); border-radius:12px; padding:10px}
+    .kpi .t{font-size:12px; color:var(--muted)}
+    .kpi .v{font-size:18px; font-weight:950; margin-top:4px}
+    .bar{height:12px; width:100%; background: rgba(255,255,255,.06); border:1px solid var(--line); border-radius:999px; overflow:hidden;}
+    .bar > div{height:100%; width:0%; background: linear-gradient(90deg, rgba(122,162,255,.95), rgba(71,209,140,.95)); transition: width .25s ease;}
+    input[type="search"], input[type="text"], input[type="password"], input[type="url"]{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      outline:none;
+      font-size: 14px;
+    }
+    textarea{
+      width:100%;
+      min-height: 160px;
+      resize: vertical;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      padding:12px 12px;
+      outline:none;
+      line-height:1.4;
+      font-size: 15px;
+    }
+    .dayList{display:flex; flex-direction:column; gap:10px; max-height: 44vh; overflow:auto; padding-right:4px;}
+    .dayItem{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px;
+      background: rgba(255,255,255,.04);
+      display:flex; gap:10px; justify-content:space-between; align-items:center;
+      cursor:pointer;
+    }
+    .dayItem.active{border-color: rgba(122,162,255,.55); background: rgba(122,162,255,.10)}
+    .dayItem .title{font-weight:950; font-size:13px}
+    .dayItem .meta{font-size:12px; color:var(--muted); margin-top:2px; max-width:68vw; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+    .badge{
+      font-size:12px; font-weight:950;
+      padding:7px 10px; border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      white-space:nowrap;
+      flex:0 0 auto;
+    }
+    .badge.done{color: rgba(71,209,140,.95); border-color: rgba(71,209,140,.35); background: rgba(71,209,140,.10)}
+    .badge.part{color: rgba(255,204,102,.95); border-color: rgba(255,204,102,.35); background: rgba(255,204,102,.10)}
+    .badge.none{color: rgba(255,107,107,.95); border-color: rgba(255,107,107,.35); background: rgba(255,107,107,.10)}
+    .refs{display:flex; flex-direction:column; gap:10px;}
+    .refRow{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px;
+      background: rgba(255,255,255,.04);
+      display:grid;
+      grid-template-columns: auto 1fr auto;
+      gap:10px;
+      align-items:center;
+    }
+    .idx{
+      font-family:var(--mono);
+      font-size:12px;
+      padding:6px 8px;
+      border-radius:10px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      min-width:44px; text-align:center;
+      color: rgba(169,182,214,.95);
+    }
+    .ref{font-weight:900; font-size:13px; line-height:1.25}
+    label{display:flex; gap:8px; align-items:center; font-size:12px; color:var(--muted)}
+    input[type="checkbox"]{width:20px; height:20px; accent-color: var(--accent)}
+
+    /* Gallery */
+    .galleryTop{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between}
+    .galleryGrid{display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;}
+    @media (max-width:860px){ .galleryGrid{grid-template-columns:1fr 1fr;} }
+    @media (max-width:520px){ .galleryGrid{grid-template-columns:1fr;} }
+    .gCard{
+      border:1px solid var(--line);
+      border-radius: 16px;
+      overflow:hidden;
+      background: rgba(255,255,255,.04);
+      cursor:pointer;
+      transition: transform .08s ease, border-color .15s ease, background .15s ease;
+    }
+    .gCard:hover{border-color: rgba(122,162,255,.55); background: rgba(122,162,255,.06)}
+    .gCard:active{transform: translateY(1px)}
+    .gImg{width:100%; aspect-ratio: 16/10; background: rgba(0,0,0,.25); display:block; object-fit: cover;}
+    .gMeta{padding:10px}
+    .gTitle{font-weight:950}
+    .gSub{color:var(--muted); font-size:12px; margin-top:4px; line-height:1.35}
+
+    .modal{position:fixed; inset:0; background: rgba(0,0,0,.72); display:none; align-items:center; justify-content:center; padding:16px; z-index:80;}
+    .modal.open{display:flex}
+    .modalBox{width:min(980px, 100%); border:1px solid var(--line); border-radius: 18px; overflow:hidden; background: rgba(18,26,41,.96); box-shadow: var(--shadow);}
+    .modalHd{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px 12px; border-bottom:1px solid var(--line);}
+    .modalTitle{font-weight:950}
+    .modalBody{padding:12px}
+    .modalImg{width:100%; height:auto; border-radius:14px; border:1px solid rgba(255,255,255,.08)}
+  </style>
+</head>
+<body>
+  <header class="siteHeader">
+    <div class="wrap navWrap">
+      <div class="brand" onclick="location.hash='#home'" style="cursor:pointer">
+        <img class="logoImg" src="assets/logo.png" alt="Church logo" />
+        <div>
+          <div class="brandName">Bible90</div>
+          <div class="brandTag">90-day Bible reading checklist</div>
+        </div>
+      </div>
+
+      <button class="navToggle" id="navToggle" aria-label="Open menu">Menu</button>
+
+      <nav class="nav" id="nav">
+        <a href="#home" data-route="home">Home</a>
+        <a href="#service" data-route="service">Service</a>
+        <a href="#giving" data-route="giving">Giving</a>
+        <a href="#gallery" data-route="gallery">Gallery</a>
+        <a href="#connect" data-route="connect">Connect</a>
+        <a href="#tracker" data-route="tracker">Tracker</a>
+        <a href="#admin" data-route="admin" id="adminNav">Admin</a>
+        <a class="navBtn" href="#tracker">Start Reading</a>
+        <span class="pill" style="margin-left:auto">
+          <span>Progress</span> <strong id="hdrProgress">0%</strong>
+          <span id="hdrCh" class="mono">0/1189</span>
+        </span>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="page-home" class="page">
+      <section class="section">
+        <div class="wrap heroGrid">
+          <div>
+            <div class="kicker">Welcome</div>
+            <div class="heroTitle">Read the Bible in 90 Days</div>
+            <p class="heroSub">
+              Checklist-based plan that schedules <strong>13–14 chapters/day</strong> (minimum 12),
+              with notes, streaks, export/import, and offline iPhone support.
+            </p>
+
+            <div class="heroBtns">
+              <a class="btnPrimary" href="#tracker">Start Today</a>
+              <button class="btnGhost" id="btnJumpTop" type="button">Jump to next incomplete</button>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="threeGrid">
+              <div class="infoCard">
+                <div class="infoTitle">Spiritual Rhythm</div>
+                <div class="infoText">A steady daily plan that keeps momentum without guessing what to read.</div>
+              </div>
+              <div class="infoCard">
+                <div class="infoTitle">Real Accountability</div>
+                <div class="infoText">Check off each chapter, track streaks, and see your progress clearly.</div>
+              </div>
+              <div class="infoCard">
+                <div class="infoTitle">Notes & Reflection</div>
+                <div class="infoText">Write reflections for each day. All saved locally on your device.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="heroCard">
+            <div class="heroCardTitle">Today’s focus</div>
+            <div class="heroCardBig" id="heroDay">Day 1</div>
+            <div class="heroCardSmall" id="heroRefs">Loading…</div>
+            <a class="btnPrimary" style="width:100%; margin-top:12px" href="#tracker">Open checklist</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="sectionAlt">
+        <div class="wrap">
+          <div class="kicker">Ways to get involved</div>
+          <div style="font-weight:950; font-size:20px; margin-top:6px">Use Bible90 in the way that fits you</div>
+          <div class="divider"></div>
+
+          <div class="threeGrid">
+            <div class="actionCard">
+              <div class="actionTitle">Daily Reading</div>
+              <div class="actionText">Open today’s chapters and check them off as you go.</div>
+              <a class="linkBtn" href="#tracker">Go to Tracker</a>
+            </div>
+            <div class="actionCard">
+              <div class="actionTitle">Group Study</div>
+              <div class="actionText">Export your progress and share it with your group or save it.</div>
+              <button class="linkBtn" id="btnExportTop" type="button">Export progress</button>
+            </div>
+            <div class="actionCard">
+              <div class="actionTitle">Catch Up</div>
+              <div class="actionText">Jump to the next incomplete day and continue.</div>
+              <button class="linkBtn" id="btnJump2" type="button">Jump</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="wrap">
+          <div class="ctaBox">
+            <div>
+              <div class="kicker">Ready to begin your journey?</div>
+              <div style="font-weight:950; font-size:20px; margin-top:6px">Install on iPhone & keep it offline</div>
+              <div class="hint" style="margin-top:8px">Open in Safari → Share → Add to Home Screen.</div>
+            </div>
+            <a class="btnPrimary" href="#tracker">Start Reading</a>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section id="page-service" class="page">
+      <div class="wrap section">
+        <div class="card">
+          <div class="hd">
+            <div><h2>Service</h2><div class="mini">Edit this page from Admin</div></div>
+            <a class="btnPrimary btnSmall" href="#connect">Plan a visit</a>
+          </div>
+          <div class="bd"><div id="serviceContent" class="hint"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="page-giving" class="page">
+      <div class="wrap section">
+        <div class="card">
+          <div class="hd">
+            <div><h2>Giving</h2><div class="mini">Edit this page from Admin</div></div>
+            <a class="btnPrimary btnSmall" id="givingCta" href="#" target="_blank" rel="noopener">Give Now</a>
+          </div>
+          <div class="bd">
+            <div id="givingContent" class="hint"></div>
+            <div class="divider"></div>
+            <div class="hint">Tip: set your giving link inside Admin → Pages → Giving.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="page-gallery" class="page">
+      <div class="wrap section">
+        <div class="card">
+          <div class="hd">
+            <div><h2>Gallery</h2><div class="mini">CSS + JS gallery page (editable from Admin)</div></div>
+            <div class="galleryTop">
+              <button class="btnGhost btnSmall" id="btnGalleryShuffle" type="button">Shuffle</button>
+              <button class="btnGhost btnSmall" id="btnGalleryRefresh" type="button">Refresh</button>
+            </div>
+          </div>
+          <div class="bd">
+            <div class="hint" id="galleryIntro"></div>
+            <div class="divider"></div>
+            <div class="galleryGrid" id="galleryGrid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="page-connect" class="page">
+      <div class="wrap section">
+        <div class="card">
+          <div class="hd">
+            <div><h2>Connect</h2><div class="mini">Edit this page from Admin</div></div>
+            <a class="btnPrimary btnSmall" href="#tracker">Join the plan</a>
+          </div>
+          <div class="bd"><div id="connectContent" class="hint"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="page-tracker" class="page">
+      <div class="grid">
+        <section class="card">
+          <div class="hd">
+            <div><h2>Overview</h2><div class="mini">Jump to next incomplete day • search • export/import</div></div>
+            <button class="btnGhost btnSmall" id="btnJump">Jump</button>
+          </div>
+          <div class="bd">
+            <div class="kpis">
+              <div class="kpi"><div class="t">Days done</div><div class="v" id="kpiDaysDone">0</div></div>
+              <div class="kpi"><div class="t">Chapters done</div><div class="v" id="kpiChDone">0</div></div>
+              <div class="kpi"><div class="t">Streak</div><div class="v" id="kpiStreak">0</div></div>
+            </div>
+            <div class="divider"></div>
+            <div class="bar"><div id="barFill"></div></div>
+            <div class="hint" style="margin-top:8px" id="barText">0% complete</div>
+            <div class="divider"></div>
+            <input id="search" type="search" placeholder="Search (e.g., Day 12, Matthew)..." />
+            <div class="divider"></div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:space-between; align-items:center">
+              <div style="display:flex; gap:8px; flex-wrap:wrap">
+                <button class="btnGhost btnSmall" id="btnExport">Export</button>
+                <button class="btnGhost btnSmall" id="btnImport">Import</button>
+              </div>
+              <button class="btnDanger btnSmall" id="btnReset">Reset</button>
+            </div>
+            <div class="divider"></div>
+            <div class="dayList" id="dayList"></div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="hd">
+            <div><h2 id="dayTitle">Day 1</h2><div class="mini" id="dayMeta">13–14 chapters</div></div>
+            <div style="display:flex; gap:8px">
+              <button class="btnGhost btnSmall" id="btnPrev">◀</button>
+              <button class="btnGhost btnSmall" id="btnNext">▶</button>
+            </div>
+          </div>
+          <div class="bd">
+            <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:space-between; align-items:center; margin-bottom:10px">
+              <div style="display:flex; gap:8px; flex-wrap:wrap">
+                <button class="btnPrimary btnSmall" id="btnMarkAll">Mark all</button>
+                <button class="btnGhost btnSmall" id="btnClearAll">Clear</button>
+              </div>
+              <div class="badge" id="dayStatusBadge">Not started</div>
+            </div>
+
+            <div class="refs" id="refs"></div>
+
+            <div class="divider"></div>
+            <div style="font-weight:950; font-size:13px">Notes</div>
+            <div class="hint">Reflections / prayers / key ideas for this day (auto-saves).</div>
+            <div style="margin-top:10px">
+              <textarea id="notes" placeholder="Write your notes…"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section id="page-admin" class="page">
+      <div class="wrap section">
+        <div class="card">
+          <div class="hd">
+            <div><h2>Admin</h2><div class="mini">Create login • edit pages • manage gallery</div></div>
+            <button class="btnGhost btnSmall" id="btnAdminLogout" type="button" style="display:none">Logout</button>
+          </div>
+          <div class="bd">
+            <div id="adminLoggedOut">
+              <div class="hint" style="margin-bottom:10px">
+                Admin uses <strong>email + password</strong> (one account). Content saves to the cloud so it works on any device.
+              </div>
+
+              <div class="card" style="box-shadow:none">
+                <div class="hd">
+                  <div><h2 style="font-size:13px">Backend Setup</h2><div class="mini">Supabase URL + Anon Key (public). Set once per device.</div></div>
+                </div>
+                <div class="bd">
+                  <div style="display:grid; gap:10px; max-width:720px">
+                    <input id="sbUrl" type="url" placeholder="Supabase URL (https://xxxx.supabase.co)" />
+                    <input id="sbAnon" type="text" placeholder="Supabase Anon Key (starts with eyJ...)" />
+                    <input id="sbAdminEmail" type="email" placeholder="Admin email (the ONLY allowed admin)" />
+                    <button class="btnGhost" id="btnSaveBackend" type="button">Save Backend</button>
+                    <div class="hint">Tip: you can also hardcode these in <span class="mono">config.js</span> before deploying.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="card" style="box-shadow:none">
+                <div class="hd">
+                  <div><h2 style="font-size:13px">Admin Login</h2><div class="mini">Sign in with your admin email + password</div></div>
+                </div>
+                <div class="bd">
+                  <div style="display:grid; gap:10px; max-width:520px">
+                    <input id="adminEmail" type="text" placeholder="Email" />
+                    <input id="adminPass" type="password" placeholder="Password" />
+                    <button class="btnPrimary" id="btnAdminLogin" type="button">Login</button>
+                    <div class="hint">Create the user inside Supabase Auth first, then log in here.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+</div>
+
+            <div id="adminLoggedIn" style="display:none">
+              <div class="threeGrid">
+                <div class="infoCard">
+                  <div class="infoTitle">Pages</div>
+                  <div class="infoText">Edit Service / Giving / Connect content.</div>
+                  <button class="linkBtn" id="goPages" type="button">Open editor</button>
+                </div>
+                <div class="infoCard">
+                  <div class="infoTitle">Gallery</div>
+                  <div class="infoText">Add images (URLs), title, and caption.</div>
+                  <button class="linkBtn" id="goGalleryAdmin" type="button">Manage gallery</button>
+                </div>
+                <div class="infoCard">
+                  <div class="infoTitle">Security</div>
+                  <div class="infoText">Change admin password (local device only).</div>
+                  <button class="linkBtn" id="goSecurity" type="button">Change password</button>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <div id="adminPanelPages" style="display:none">
+                <div class="kicker">Page Editor</div>
+                <div style="font-weight:950; font-size:18px; margin-top:6px">Edit content blocks</div>
+                <div class="hint" style="margin-top:6px">Line breaks are preserved.</div>
+                <div class="divider"></div>
+
+                <div style="display:grid; gap:12px">
+                  <div class="card" style="box-shadow:none">
+                    <div class="hd"><h2 style="font-size:13px">Service Page</h2></div>
+                    <div class="bd"><textarea id="editService"></textarea></div>
+                  </div>
+
+                  <div class="card" style="box-shadow:none">
+                    <div class="hd"><h2 style="font-size:13px">Giving Page</h2></div>
+                    <div class="bd">
+                      <div class="kicker">Giving Link (URL)</div>
+                      <input id="editGivingLink" type="url" placeholder="https://..." />
+                      <div class="divider"></div>
+                      <textarea id="editGiving"></textarea>
+                    </div>
+                  </div>
+
+                  <div class="card" style="box-shadow:none">
+                    <div class="hd"><h2 style="font-size:13px">Connect Page</h2></div>
+                    <div class="bd"><textarea id="editConnect"></textarea></div>
+                  </div>
+
+                  <div style="display:flex; gap:10px; flex-wrap:wrap">
+                    <button class="btnPrimary" id="btnSavePages" type="button">Save Pages</button>
+                    <button class="btnGhost" id="btnCancelPages" type="button">Close</button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="adminPanelGallery" style="display:none">
+                <div class="kicker">Gallery Admin</div>
+                <div style="font-weight:950; font-size:18px; margin-top:6px">Add / remove gallery items</div>
+                <div class="hint" style="margin-top:6px">Paste image URLs (HTTPS recommended).</div>
+                <div class="divider"></div>
+
+                <div class="card" style="box-shadow:none">
+                  <div class="hd"><h2 style="font-size:13px">Add Image</h2></div>
+                  <div class="bd" style="display:grid; gap:10px; max-width:720px">
+                    <input id="gUrl" type="url" placeholder="Image URL (https://...jpg/png/webp)" />
+                    <input id="gTitle" type="text" placeholder="Title (optional)" />
+                    <input id="gCaption" type="text" placeholder="Caption (optional)" />
+                    <button class="btnPrimary" id="btnAddGallery" type="button">Add to Gallery</button>
+                  </div>
+                </div>
+
+                <div class="divider"></div>
+                <div class="kicker">Current Items</div>
+                <div class="galleryGrid" id="galleryAdminGrid"></div>
+
+                <div class="divider"></div>
+                <button class="btnGhost" id="btnCloseGalleryAdmin" type="button">Close</button>
+              </div>
+
+              <div id="adminPanelSecurity" style="display:none">
+                <div class="kicker">Security</div>
+                <div style="font-weight:950; font-size:18px; margin-top:6px">Change admin password</div>
+                <div class="hint" style="margin-top:6px">This only affects the current browser/device.</div>
+                <div class="divider"></div>
+
+                <div style="display:grid; gap:10px; max-width:520px">
+                  <input id="oldPass" type="password" placeholder="Current password" />
+                  <input id="newPass" type="password" placeholder="New password" />
+                  <button class="btnPrimary" id="btnChangePass" type="button">Change Password</button>
+                  <button class="btnGhost" id="btnCloseSecurity" type="button">Close</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modalBox" role="dialog" aria-modal="true" aria-label="Gallery preview">
+      <div class="modalHd">
+        <div>
+          <div class="modalTitle" id="modalTitle">Preview</div>
+          <div class="mini" id="modalCaption"></div>
+        </div>
+        <button class="btnGhost btnSmall" id="modalClose" type="button">Close</button>
+      </div>
+      <div class="modalBody">
+        <img id="modalImg" class="modalImg" alt="Gallery image preview" />
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+<script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+    }
+
+    const ROUTES = ["home","service","giving","gallery","connect","tracker","admin"];
+    function currentRoute(){
+      const h = (location.hash || "#home").replace("#","").trim().toLowerCase();
+      return ROUTES.includes(h) ? h : "home";
+    }
+    function renderRoute(){
+      const route = currentRoute();
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      const page = document.getElementById("page-" + route);
+      if (page) page.classList.add("active");
+      document.querySelectorAll("nav.nav a[data-route]").forEach(a => {
+        a.classList.toggle("active", a.getAttribute("data-route") === route);
+      });
+    }
+    window.addEventListener("hashchange", renderRoute);
+
+    const navToggle = document.getElementById("navToggle");
+    const nav = document.getElementById("nav");
+    if (navToggle && nav){
+      navToggle.addEventListener("click", () => nav.classList.toggle("open"));
+      nav.querySelectorAll("a").forEach(a => a.addEventListener("click", ()=> nav.classList.remove("open")));
+    }
+
+    const STORAGE_KEY = "bible90_pwa_v2_admin";
+    const TOTAL_DAYS = 90;
+    const TOTAL_CHAPTERS = 1189;
+
+    const PLAN = [{"day": 1, "count": 12, "items": [{"book": "ዘፍ", "ch": 1}, {"book": "ዘፍ", "ch": 2}, {"book": "ዘፍ", "ch": 3}, {"book": "ዘፍ", "ch": 4}, {"book": "ዘፍ", "ch": 5}, {"book": "ዘፍ", "ch": 6}, {"book": "ዘፍ", "ch": 7}, {"book": "ዘፍ", "ch": 8}, {"book": "ዘፍ", "ch": 9}, {"book": "ዘፍ", "ch": 10}, {"book": "ማቴ", "ch": 1}, {"book": "ማቴ", "ch": 2}], "refs": [{"book": "ዘፍ", "start": 1, "end": 10}, {"book": "ማቴ", "start": 1, "end": 2}]}, {"day": 2, "count": 13, "items": [{"book": "ዘፍ", "ch": 11}, {"book": "ዘፍ", "ch": 12}, {"book": "ዘፍ", "ch": 13}, {"book": "ዘፍ", "ch": 14}, {"book": "ዘፍ", "ch": 15}, {"book": "ዘፍ", "ch": 16}, {"book": "ዘፍ", "ch": 17}, {"book": "ዘፍ", "ch": 18}, {"book": "ዘፍ", "ch": 19}, {"book": "ዘፍ", "ch": 20}, {"book": "ማቴ", "ch": 3}, {"book": "ማቴ", "ch": 4}, {"book": "ማቴ", "ch": 5}], "refs": [{"book": "ዘፍ", "start": 11, "end": 20}, {"book": "ማቴ", "start": 3, "end": 5}]}, {"day": 3, "count": 13, "items": [{"book": "ዘፍ", "ch": 21}, {"book": "ዘፍ", "ch": 22}, {"book": "ዘፍ", "ch": 23}, {"book": "ዘፍ", "ch": 24}, {"book": "ዘፍ", "ch": 25}, {"book": "ዘፍ", "ch": 26}, {"book": "ዘፍ", "ch": 27}, {"book": "ዘፍ", "ch": 28}, {"book": "ዘፍ", "ch": 29}, {"book": "ዘፍ", "ch": 30}, {"book": "ማቴ", "ch": 6}, {"book": "ማቴ", "ch": 7}, {"book": "ማቴ", "ch": 8}], "refs": [{"book": "ዘፍ", "start": 21, "end": 30}, {"book": "ማቴ", "start": 6, "end": 8}]}, {"day": 4, "count": 13, "items": [{"book": "ዘፍ", "ch": 31}, {"book": "ዘፍ", "ch": 32}, {"book": "ዘፍ", "ch": 33}, {"book": "ዘፍ", "ch": 34}, {"book": "ዘፍ", "ch": 35}, {"book": "ዘፍ", "ch": 36}, {"book": "ዘፍ", "ch": 37}, {"book": "ዘፍ", "ch": 38}, {"book": "ዘፍ", "ch": 39}, {"book": "ዘፍ", "ch": 40}, {"book": "ማቴ", "ch": 9}, {"book": "ማቴ", "ch": 10}, {"book": "ማቴ", "ch": 11}], "refs": [{"book": "ዘፍ", "start": 31, "end": 40}, {"book": "ማቴ", "start": 9, "end": 11}]}, {"day": 5, "count": 14, "items": [{"book": "ዘፍ", "ch": 41}, {"book": "ዘፍ", "ch": 42}, {"book": "ዘፍ", "ch": 43}, {"book": "ዘፍ", "ch": 44}, {"book": "ዘፍ", "ch": 45}, {"book": "ዘፍ", "ch": 46}, {"book": "ዘፍ", "ch": 47}, {"book": "ዘፍ", "ch": 48}, {"book": "ዘፍ", "ch": 49}, {"book": "ዘፍ", "ch": 50}, {"book": "ዘጽ", "ch": 1}, {"book": "ማቴ", "ch": 12}, {"book": "ማቴ", "ch": 13}, {"book": "ማቴ", "ch": 14}], "refs": [{"book": "ዘፍ", "start": 41, "end": 50}, {"book": "ዘጽ", "start": 1, "end": 1}, {"book": "ማቴ", "start": 12, "end": 14}]}, {"day": 6, "count": 13, "items": [{"book": "ዘጽ", "ch": 2}, {"book": "ዘጽ", "ch": 3}, {"book": "ዘጽ", "ch": 4}, {"book": "ዘጽ", "ch": 5}, {"book": "ዘጽ", "ch": 6}, {"book": "ዘጽ", "ch": 7}, {"book": "ዘጽ", "ch": 8}, {"book": "ዘጽ", "ch": 9}, {"book": "ዘጽ", "ch": 10}, {"book": "ዘጽ", "ch": 11}, {"book": "ማቴ", "ch": 15}, {"book": "ማቴ", "ch": 16}, {"book": "ማቴ", "ch": 17}], "refs": [{"book": "ዘጽ", "start": 2, "end": 11}, {"book": "ማቴ", "start": 15, "end": 17}]}, {"day": 7, "count": 13, "items": [{"book": "ዘጽ", "ch": 12}, {"book": "ዘጽ", "ch": 13}, {"book": "ዘጽ", "ch": 14}, {"book": "ዘጽ", "ch": 15}, {"book": "ዘጽ", "ch": 16}, {"book": "ዘጽ", "ch": 17}, {"book": "ዘጽ", "ch": 18}, {"book": "ዘጽ", "ch": 19}, {"book": "ዘጽ", "ch": 20}, {"book": "ዘጽ", "ch": 21}, {"book": "ማቴ", "ch": 18}, {"book": "ማቴ", "ch": 19}, {"book": "ማቴ", "ch": 20}], "refs": [{"book": "ዘጽ", "start": 12, "end": 21}, {"book": "ማቴ", "start": 18, "end": 20}]}, {"day": 8, "count": 12, "items": [{"book": "ዘጽ", "ch": 22}, {"book": "ዘጽ", "ch": 23}, {"book": "ዘጽ", "ch": 24}, {"book": "ዘጽ", "ch": 25}, {"book": "ዘጽ", "ch": 26}, {"book": "ዘጽ", "ch": 27}, {"book": "ዘጽ", "ch": 28}, {"book": "ዘጽ", "ch": 29}, {"book": "ዘጽ", "ch": 30}, {"book": "ዘጽ", "ch": 31}, {"book": "ማቴ", "ch": 21}, {"book": "ማቴ", "ch": 22}], "refs": [{"book": "ዘጽ", "start": 22, "end": 31}, {"book": "ማቴ", "start": 21, "end": 22}]}, {"day": 9, "count": 13, "items": [{"book": "ዘጽ", "ch": 32}, {"book": "ዘጽ", "ch": 33}, {"book": "ዘጽ", "ch": 34}, {"book": "ዘጽ", "ch": 35}, {"book": "ዘጽ", "ch": 36}, {"book": "ዘጽ", "ch": 37}, {"book": "ዘጽ", "ch": 38}, {"book": "ዘጽ", "ch": 39}, {"book": "ዘጽ", "ch": 40}, {"book": "ዘሌ", "ch": 1}, {"book": "ማቴ", "ch": 23}, {"book": "ማቴ", "ch": 24}, {"book": "ማቴ", "ch": 25}], "refs": [{"book": "ዘጽ", "start": 32, "end": 40}, {"book": "ዘሌ", "start": 1, "end": 1}, {"book": "ማቴ", "start": 23, "end": 25}]}, {"day": 10, "count": 14, "items": [{"book": "ዘሌ", "ch": 2}, {"book": "ዘሌ", "ch": 3}, {"book": "ዘሌ", "ch": 4}, {"book": "ዘሌ", "ch": 5}, {"book": "ዘሌ", "ch": 6}, {"book": "ዘሌ", "ch": 7}, {"book": "ዘሌ", "ch": 8}, {"book": "ዘሌ", "ch": 9}, {"book": "ዘሌ", "ch": 10}, {"book": "ዘሌ", "ch": 11}, {"book": "ዘሌ", "ch": 12}, {"book": "ማቴ", "ch": 26}, {"book": "ማቴ", "ch": 27}, {"book": "ማቴ", "ch": 28}], "refs": [{"book": "ዘሌ", "start": 2, "end": 12}, {"book": "ማቴ", "start": 26, "end": 28}]}, {"day": 11, "count": 13, "items": [{"book": "ዘሌ", "ch": 13}, {"book": "ዘሌ", "ch": 14}, {"book": "ዘሌ", "ch": 15}, {"book": "ዘሌ", "ch": 16}, {"book": "ዘሌ", "ch": 17}, {"book": "ዘሌ", "ch": 18}, {"book": "ዘሌ", "ch": 19}, {"book": "ዘሌ", "ch": 20}, {"book": "ዘሌ", "ch": 21}, {"book": "ዘሌ", "ch": 22}, {"book": "ማር", "ch": 1}, {"book": "ማር", "ch": 2}, {"book": "ማር", "ch": 3}], "refs": [{"book": "ዘሌ", "start": 13, "end": 22}, {"book": "ማር", "start": 1, "end": 3}]}, {"day": 12, "count": 13, "items": [{"book": "ዘሌ", "ch": 23}, {"book": "ዘሌ", "ch": 24}, {"book": "ዘሌ", "ch": 25}, {"book": "ዘሌ", "ch": 26}, {"book": "ዘሌ", "ch": 27}, {"book": "ዘሁ", "ch": 1}, {"book": "ዘሁ", "ch": 2}, {"book": "ዘሁ", "ch": 3}, {"book": "ዘሁ", "ch": 4}, {"book": "ዘሁ", "ch": 5}, {"book": "ማር", "ch": 4}, {"book": "ማር", "ch": 5}, {"book": "ማር", "ch": 6}], "refs": [{"book": "ዘሌ", "start": 23, "end": 27}, {"book": "ዘሁ", "start": 1, "end": 5}, {"book": "ማር", "start": 4, "end": 6}]}, {"day": 13, "count": 13, "items": [{"book": "ዘሁ", "ch": 6}, {"book": "ዘሁ", "ch": 7}, {"book": "ዘሁ", "ch": 8}, {"book": "ዘሁ", "ch": 9}, {"book": "ዘሁ", "ch": 10}, {"book": "ዘሁ", "ch": 11}, {"book": "ዘሁ", "ch": 12}, {"book": "ዘሁ", "ch": 13}, {"book": "ዘሁ", "ch": 14}, {"book": "ዘሁ", "ch": 15}, {"book": "ማር", "ch": 7}, {"book": "ማር", "ch": 8}, {"book": "ማር", "ch": 9}], "refs": [{"book": "ዘሁ", "start": 6, "end": 15}, {"book": "ማር", "start": 7, "end": 9}]}, {"day": 14, "count": 13, "items": [{"book": "ዘሁ", "ch": 16}, {"book": "ዘሁ", "ch": 17}, {"book": "ዘሁ", "ch": 18}, {"book": "ዘሁ", "ch": 19}, {"book": "ዘሁ", "ch": 20}, {"book": "ዘሁ", "ch": 21}, {"book": "ዘሁ", "ch": 22}, {"book": "ዘሁ", "ch": 23}, {"book": "ዘሁ", "ch": 24}, {"book": "ዘሁ", "ch": 25}, {"book": "ማር", "ch": 10}, {"book": "ማር", "ch": 11}, {"book": "ማር", "ch": 12}], "refs": [{"book": "ዘሁ", "start": 16, "end": 25}, {"book": "ማር", "start": 10, "end": 12}]}, {"day": 15, "count": 13, "items": [{"book": "ዘሁ", "ch": 26}, {"book": "ዘሁ", "ch": 27}, {"book": "ዘሁ", "ch": 28}, {"book": "ዘሁ", "ch": 29}, {"book": "ዘሁ", "ch": 30}, {"book": "ዘሁ", "ch": 31}, {"book": "ዘሁ", "ch": 32}, {"book": "ዘሁ", "ch": 33}, {"book": "ዘሁ", "ch": 34}, {"book": "ዘሁ", "ch": 35}, {"book": "ዘሁ", "ch": 36}, {"book": "ማር", "ch": 13}, {"book": "ማር", "ch": 14}], "refs": [{"book": "ዘሁ", "start": 26, "end": 36}, {"book": "ማር", "start": 13, "end": 14}]}, {"day": 16, "count": 13, "items": [{"book": "ዘዳ", "ch": 1}, {"book": "ዘዳ", "ch": 2}, {"book": "ዘዳ", "ch": 3}, {"book": "ዘዳ", "ch": 4}, {"book": "ዘዳ", "ch": 5}, {"book": "ዘዳ", "ch": 6}, {"book": "ዘዳ", "ch": 7}, {"book": "ዘዳ", "ch": 8}, {"book": "ዘዳ", "ch": 9}, {"book": "ዘዳ", "ch": 10}, {"book": "ማር", "ch": 15}, {"book": "ማር", "ch": 16}, {"book": "ሉቃ", "ch": 1}], "refs": [{"book": "ዘዳ", "start": 1, "end": 10}, {"book": "ማር", "start": 15, "end": 16}, {"book": "ሉቃ", "start": 1, "end": 1}]}, {"day": 17, "count": 13, "items": [{"book": "ዘዳ", "ch": 11}, {"book": "ዘዳ", "ch": 12}, {"book": "ዘዳ", "ch": 13}, {"book": "ዘዳ", "ch": 14}, {"book": "ዘዳ", "ch": 15}, {"book": "ዘዳ", "ch": 16}, {"book": "ዘዳ", "ch": 17}, {"book": "ዘዳ", "ch": 18}, {"book": "ዘዳ", "ch": 19}, {"book": "ዘዳ", "ch": 20}, {"book": "ሉቃ", "ch": 2}, {"book": "ሉቃ", "ch": 3}, {"book": "ሉቃ", "ch": 4}], "refs": [{"book": "ዘዳ", "start": 11, "end": 20}, {"book": "ሉቃ", "start": 2, "end": 4}]}, {"day": 18, "count": 13, "items": [{"book": "ዘዳ", "ch": 21}, {"book": "ዘዳ", "ch": 22}, {"book": "ዘዳ", "ch": 23}, {"book": "ዘዳ", "ch": 24}, {"book": "ዘዳ", "ch": 25}, {"book": "ዘዳ", "ch": 26}, {"book": "ዘዳ", "ch": 27}, {"book": "ዘዳ", "ch": 28}, {"book": "ዘዳ", "ch": 29}, {"book": "ዘዳ", "ch": 30}, {"book": "ሉቃ", "ch": 5}, {"book": "ሉቃ", "ch": 6}, {"book": "ሉቃ", "ch": 7}], "refs": [{"book": "ዘዳ", "start": 21, "end": 30}, {"book": "ሉቃ", "start": 5, "end": 7}]}, {"day": 19, "count": 13, "items": [{"book": "ዘዳ", "ch": 31}, {"book": "ዘዳ", "ch": 32}, {"book": "ዘዳ", "ch": 33}, {"book": "ዘዳ", "ch": 34}, {"book": "ኢያ", "ch": 1}, {"book": "ኢያ", "ch": 2}, {"book": "ኢያ", "ch": 3}, {"book": "ኢያ", "ch": 4}, {"book": "ኢያ", "ch": 5}, {"book": "ኢያ", "ch": 6}, {"book": "ሉቃ", "ch": 8}, {"book": "ሉቃ", "ch": 9}, {"book": "ሉቃ", "ch": 10}], "refs": [{"book": "ዘዳ", "start": 31, "end": 34}, {"book": "ኢያ", "start": 1, "end": 6}, {"book": "ሉቃ", "start": 8, "end": 10}]}, {"day": 20, "count": 14, "items": [{"book": "ኢያ", "ch": 7}, {"book": "ኢያ", "ch": 8}, {"book": "ኢያ", "ch": 9}, {"book": "ኢያ", "ch": 10}, {"book": "ኢያ", "ch": 11}, {"book": "ኢያ", "ch": 12}, {"book": "ኢያ", "ch": 13}, {"book": "ኢያ", "ch": 14}, {"book": "ኢያ", "ch": 15}, {"book": "ኢያ", "ch": 16}, {"book": "ኢያ", "ch": 17}, {"book": "ሉቃ", "ch": 11}, {"book": "ሉቃ", "ch": 12}, {"book": "ሉቃ", "ch": 13}], "refs": [{"book": "ኢያ", "start": 7, "end": 17}, {"book": "ሉቃ", "start": 11, "end": 13}]}, {"day": 21, "count": 13, "items": [{"book": "ኢያ", "ch": 18}, {"book": "ኢያ", "ch": 19}, {"book": "ኢያ", "ch": 20}, {"book": "ኢያ", "ch": 21}, {"book": "ኢያ", "ch": 22}, {"book": "ኢያ", "ch": 23}, {"book": "ኢያ", "ch": 24}, {"book": "መሳ", "ch": 1}, {"book": "መሳ", "ch": 2}, {"book": "መሳ", "ch": 3}, {"book": "ሉቃ", "ch": 14}, {"book": "ሉቃ", "ch": 15}, {"book": "ሉቃ", "ch": 16}], "refs": [{"book": "ኢያ", "start": 18, "end": 24}, {"book": "መሳ", "start": 1, "end": 3}, {"book": "ሉቃ", "start": 14, "end": 16}]}, {"day": 22, "count": 12, "items": [{"book": "መሳ", "ch": 4}, {"book": "መሳ", "ch": 5}, {"book": "መሳ", "ch": 6}, {"book": "መሳ", "ch": 7}, {"book": "መሳ", "ch": 8}, {"book": "መሳ", "ch": 9}, {"book": "መሳ", "ch": 10}, {"book": "መሳ", "ch": 11}, {"book": "መሳ", "ch": 12}, {"book": "መሳ", "ch": 13}, {"book": "ሉቃ", "ch": 17}, {"book": "ሉቃ", "ch": 18}], "refs": [{"book": "መሳ", "start": 4, "end": 13}, {"book": "ሉቃ", "start": 17, "end": 18}]}, {"day": 23, "count": 13, "items": [{"book": "መሳ", "ch": 14}, {"book": "መሳ", "ch": 15}, {"book": "መሳ", "ch": 16}, {"book": "መሳ", "ch": 17}, {"book": "መሳ", "ch": 18}, {"book": "መሳ", "ch": 19}, {"book": "መሳ", "ch": 20}, {"book": "መሳ", "ch": 21}, {"book": "ሩት", "ch": 1}, {"book": "ሩት", "ch": 2}, {"book": "ሉቃ", "ch": 19}, {"book": "ሉቃ", "ch": 20}, {"book": "ሉቃ", "ch": 21}], "refs": [{"book": "መሳ", "start": 14, "end": 21}, {"book": "ሩት", "start": 1, "end": 2}, {"book": "ሉቃ", "start": 19, "end": 21}]}, {"day": 24, "count": 14, "items": [{"book": "ሩት", "ch": 3}, {"book": "ሩት", "ch": 4}, {"book": "1ሳሙ", "ch": 1}, {"book": "1ሳሙ", "ch": 2}, {"book": "1ሳሙ", "ch": 3}, {"book": "1ሳሙ", "ch": 4}, {"book": "1ሳሙ", "ch": 5}, {"book": "1ሳሙ", "ch": 6}, {"book": "1ሳሙ", "ch": 7}, {"book": "1ሳሙ", "ch": 8}, {"book": "1ሳሙ", "ch": 9}, {"book": "ሉቃ", "ch": 22}, {"book": "ሉቃ", "ch": 23}, {"book": "ሉቃ", "ch": 24}], "refs": [{"book": "ሩት", "start": 3, "end": 4}, {"book": "1ሳሙ", "start": 1, "end": 9}, {"book": "ሉቃ", "start": 22, "end": 24}]}, {"day": 25, "count": 13, "items": [{"book": "1ሳሙ", "ch": 10}, {"book": "1ሳሙ", "ch": 11}, {"book": "1ሳሙ", "ch": 12}, {"book": "1ሳሙ", "ch": 13}, {"book": "1ሳሙ", "ch": 14}, {"book": "1ሳሙ", "ch": 15}, {"book": "1ሳሙ", "ch": 16}, {"book": "1ሳሙ", "ch": 17}, {"book": "1ሳሙ", "ch": 18}, {"book": "1ሳሙ", "ch": 19}, {"book": "ዮሃ", "ch": 1}, {"book": "ዮሃ", "ch": 2}, {"book": "ዮሃ", "ch": 3}], "refs": [{"book": "1ሳሙ", "start": 10, "end": 19}, {"book": "ዮሃ", "start": 1, "end": 3}]}, {"day": 26, "count": 13, "items": [{"book": "1ሳሙ", "ch": 20}, {"book": "1ሳሙ", "ch": 21}, {"book": "1ሳሙ", "ch": 22}, {"book": "1ሳሙ", "ch": 23}, {"book": "1ሳሙ", "ch": 24}, {"book": "1ሳሙ", "ch": 25}, {"book": "1ሳሙ", "ch": 26}, {"book": "1ሳሙ", "ch": 27}, {"book": "1ሳሙ", "ch": 28}, {"book": "1ሳሙ", "ch": 29}, {"book": "ዮሃ", "ch": 4}, {"book": "ዮሃ", "ch": 5}, {"book": "ዮሃ", "ch": 6}], "refs": [{"book": "1ሳሙ", "start": 20, "end": 29}, {"book": "ዮሃ", "start": 4, "end": 6}]}, {"day": 27, "count": 13, "items": [{"book": "1ሳሙ", "ch": 30}, {"book": "1ሳሙ", "ch": 31}, {"book": "2ሳሙ", "ch": 1}, {"book": "2ሳሙ", "ch": 2}, {"book": "2ሳሙ", "ch": 3}, {"book": "2ሳሙ", "ch": 4}, {"book": "2ሳሙ", "ch": 5}, {"book": "2ሳሙ", "ch": 6}, {"book": "2ሳሙ", "ch": 7}, {"book": "2ሳሙ", "ch": 8}, {"book": "ዮሃ", "ch": 7}, {"book": "ዮሃ", "ch": 8}, {"book": "ዮሃ", "ch": 9}], "refs": [{"book": "1ሳሙ", "start": 30, "end": 31}, {"book": "2ሳሙ", "start": 1, "end": 8}, {"book": "ዮሃ", "start": 7, "end": 9}]}, {"day": 28, "count": 13, "items": [{"book": "2ሳሙ", "ch": 9}, {"book": "2ሳሙ", "ch": 10}, {"book": "2ሳሙ", "ch": 11}, {"book": "2ሳሙ", "ch": 12}, {"book": "2ሳሙ", "ch": 13}, {"book": "2ሳሙ", "ch": 14}, {"book": "2ሳሙ", "ch": 15}, {"book": "2ሳሙ", "ch": 16}, {"book": "2ሳሙ", "ch": 17}, {"book": "2ሳሙ", "ch": 18}, {"book": "ዮሃ", "ch": 10}, {"book": "ዮሃ", "ch": 11}, {"book": "ዮሃ", "ch": 12}], "refs": [{"book": "2ሳሙ", "start": 9, "end": 18}, {"book": "ዮሃ", "start": 10, "end": 12}]}, {"day": 29, "count": 13, "items": [{"book": "2ሳሙ", "ch": 19}, {"book": "2ሳሙ", "ch": 20}, {"book": "2ሳሙ", "ch": 21}, {"book": "2ሳሙ", "ch": 22}, {"book": "2ሳሙ", "ch": 23}, {"book": "2ሳሙ", "ch": 24}, {"book": "1ነገ", "ch": 1}, {"book": "1ነገ", "ch": 2}, {"book": "1ነገ", "ch": 3}, {"book": "1ነገ", "ch": 4}, {"book": "1ነገ", "ch": 5}, {"book": "ዮሃ", "ch": 13}, {"book": "ዮሃ", "ch": 14}], "refs": [{"book": "2ሳሙ", "start": 19, "end": 24}, {"book": "1ነገ", "start": 1, "end": 5}, {"book": "ዮሃ", "start": 13, "end": 14}]}, {"day": 30, "count": 13, "items": [{"book": "1ነገ", "ch": 6}, {"book": "1ነገ", "ch": 7}, {"book": "1ነገ", "ch": 8}, {"book": "1ነገ", "ch": 9}, {"book": "1ነገ", "ch": 10}, {"book": "1ነገ", "ch": 11}, {"book": "1ነገ", "ch": 12}, {"book": "1ነገ", "ch": 13}, {"book": "1ነገ", "ch": 14}, {"book": "1ነገ", "ch": 15}, {"book": "ዮሃ", "ch": 15}, {"book": "ዮሃ", "ch": 16}, {"book": "ዮሃ", "ch": 17}], "refs": [{"book": "1ነገ", "start": 6, "end": 15}, {"book": "ዮሃ", "start": 15, "end": 17}]}, {"day": 31, "count": 13, "items": [{"book": "1ነገ", "ch": 16}, {"book": "1ነገ", "ch": 17}, {"book": "1ነገ", "ch": 18}, {"book": "1ነገ", "ch": 19}, {"book": "1ነገ", "ch": 20}, {"book": "1ነገ", "ch": 21}, {"book": "1ነገ", "ch": 22}, {"book": "2ነገ", "ch": 1}, {"book": "2ነገ", "ch": 2}, {"book": "2ነገ", "ch": 3}, {"book": "ዮሃ", "ch": 18}, {"book": "ዮሃ", "ch": 19}, {"book": "ዮሃ", "ch": 20}], "refs": [{"book": "1ነገ", "start": 16, "end": 22}, {"book": "2ነገ", "start": 1, "end": 3}, {"book": "ዮሃ", "start": 18, "end": 20}]}, {"day": 32, "count": 12, "items": [{"book": "2ነገ", "ch": 4}, {"book": "2ነገ", "ch": 5}, {"book": "2ነገ", "ch": 6}, {"book": "2ነገ", "ch": 7}, {"book": "2ነገ", "ch": 8}, {"book": "2ነገ", "ch": 9}, {"book": "2ነገ", "ch": 10}, {"book": "2ነገ", "ch": 11}, {"book": "2ነገ", "ch": 12}, {"book": "2ነገ", "ch": 13}, {"book": "ግ.ሃ", "ch": 1}, {"book": "ግ.ሃ", "ch": 2}], "refs": [{"book": "2ነገ", "start": 4, "end": 13}, {"book": "ግ.ሃ", "start": 1, "end": 2}]}, {"day": 33, "count": 13, "items": [{"book": "2ነገ", "ch": 14}, {"book": "2ነገ", "ch": 15}, {"book": "2ነገ", "ch": 16}, {"book": "2ነገ", "ch": 17}, {"book": "2ነገ", "ch": 18}, {"book": "2ነገ", "ch": 19}, {"book": "2ነገ", "ch": 20}, {"book": "2ነገ", "ch": 21}, {"book": "2ነገ", "ch": 22}, {"book": "2ነገ", "ch": 23}, {"book": "ግ.ሃ", "ch": 3}, {"book": "ግ.ሃ", "ch": 4}, {"book": "ግ.ሃ", "ch": 5}], "refs": [{"book": "2ነገ", "start": 14, "end": 23}, {"book": "ግ.ሃ", "start": 3, "end": 5}]}, {"day": 34, "count": 14, "items": [{"book": "2ነገ", "ch": 24}, {"book": "2ነገ", "ch": 25}, {"book": "1ዜና", "ch": 1}, {"book": "1ዜና", "ch": 2}, {"book": "1ዜና", "ch": 3}, {"book": "1ዜና", "ch": 4}, {"book": "1ዜና", "ch": 5}, {"book": "1ዜና", "ch": 6}, {"book": "1ዜና", "ch": 7}, {"book": "1ዜና", "ch": 8}, {"book": "1ዜና", "ch": 9}, {"book": "ግ.ሃ", "ch": 6}, {"book": "ግ.ሃ", "ch": 7}, {"book": "ግ.ሃ", "ch": 8}], "refs": [{"book": "2ነገ", "start": 24, "end": 25}, {"book": "1ዜና", "start": 1, "end": 9}, {"book": "ግ.ሃ", "start": 6, "end": 8}]}, {"day": 35, "count": 13, "items": [{"book": "1ዜና", "ch": 10}, {"book": "1ዜና", "ch": 11}, {"book": "1ዜና", "ch": 12}, {"book": "1ዜና", "ch": 13}, {"book": "1ዜና", "ch": 14}, {"book": "1ዜና", "ch": 15}, {"book": "1ዜና", "ch": 16}, {"book": "1ዜና", "ch": 17}, {"book": "1ዜና", "ch": 18}, {"book": "1ዜና", "ch": 19}, {"book": "ግ.ሃ", "ch": 9}, {"book": "ግ.ሃ", "ch": 10}, {"book": "ግ.ሃ", "ch": 11}], "refs": [{"book": "1ዜና", "start": 10, "end": 19}, {"book": "ግ.ሃ", "start": 9, "end": 11}]}, {"day": 36, "count": 12, "items": [{"book": "1ዜና", "ch": 20}, {"book": "1ዜና", "ch": 21}, {"book": "1ዜና", "ch": 22}, {"book": "1ዜና", "ch": 23}, {"book": "1ዜና", "ch": 24}, {"book": "1ዜና", "ch": 25}, {"book": "1ዜና", "ch": 26}, {"book": "1ዜና", "ch": 27}, {"book": "1ዜና", "ch": 28}, {"book": "1ዜና", "ch": 29}, {"book": "ግ.ሃ", "ch": 12}, {"book": "ግ.ሃ", "ch": 13}], "refs": [{"book": "1ዜና", "start": 20, "end": 29}, {"book": "ግ.ሃ", "start": 12, "end": 13}]}, {"day": 37, "count": 13, "items": [{"book": "2ዜና", "ch": 1}, {"book": "2ዜና", "ch": 2}, {"book": "2ዜና", "ch": 3}, {"book": "2ዜና", "ch": 4}, {"book": "2ዜና", "ch": 5}, {"book": "2ዜና", "ch": 6}, {"book": "2ዜና", "ch": 7}, {"book": "2ዜና", "ch": 8}, {"book": "2ዜና", "ch": 9}, {"book": "2ዜና", "ch": 10}, {"book": "ግ.ሃ", "ch": 14}, {"book": "ግ.ሃ", "ch": 15}, {"book": "ግ.ሃ", "ch": 16}], "refs": [{"book": "2ዜና", "start": 1, "end": 10}, {"book": "ግ.ሃ", "start": 14, "end": 16}]}, {"day": 38, "count": 13, "items": [{"book": "2ዜና", "ch": 11}, {"book": "2ዜና", "ch": 12}, {"book": "2ዜና", "ch": 13}, {"book": "2ዜና", "ch": 14}, {"book": "2ዜና", "ch": 15}, {"book": "2ዜና", "ch": 16}, {"book": "2ዜና", "ch": 17}, {"book": "2ዜና", "ch": 18}, {"book": "2ዜና", "ch": 19}, {"book": "2ዜና", "ch": 20}, {"book": "ግ.ሃ", "ch": 17}, {"book": "ግ.ሃ", "ch": 18}, {"book": "ግ.ሃ", "ch": 19}], "refs": [{"book": "2ዜና", "start": 11, "end": 20}, {"book": "ግ.ሃ", "start": 17, "end": 19}]}, {"day": 39, "count": 13, "items": [{"book": "2ዜና", "ch": 21}, {"book": "2ዜና", "ch": 22}, {"book": "2ዜና", "ch": 23}, {"book": "2ዜና", "ch": 24}, {"book": "2ዜና", "ch": 25}, {"book": "2ዜና", "ch": 26}, {"book": "2ዜና", "ch": 27}, {"book": "2ዜና", "ch": 28}, {"book": "2ዜና", "ch": 29}, {"book": "2ዜና", "ch": 30}, {"book": "ግ.ሃ", "ch": 20}, {"book": "ግ.ሃ", "ch": 21}, {"book": "ግ.ሃ", "ch": 22}], "refs": [{"book": "2ዜና", "start": 21, "end": 30}, {"book": "ግ.ሃ", "start": 20, "end": 22}]}, {"day": 40, "count": 15, "items": [{"book": "2ዜና", "ch": 30}, {"book": "2ዜና", "ch": 31}, {"book": "2ዜና", "ch": 32}, {"book": "2ዜና", "ch": 33}, {"book": "2ዜና", "ch": 34}, {"book": "2ዜና", "ch": 35}, {"book": "2ዜና", "ch": 36}, {"book": "እዝ", "ch": 1}, {"book": "እዝ", "ch": 2}, {"book": "እዝ", "ch": 3}, {"book": "እዝ", "ch": 4}, {"book": "እዝ", "ch": 5}, {"book": "ግ.ሃ", "ch": 23}, {"book": "ግ.ሃ", "ch": 24}, {"book": "ግ.ሃ", "ch": 25}], "refs": [{"book": "2ዜና", "start": 30, "end": 36}, {"book": "እዝ", "start": 1, "end": 5}, {"book": "ግ.ሃ", "start": 23, "end": 25}]}, {"day": 41, "count": 14, "items": [{"book": "እዝ", "ch": 6}, {"book": "እዝ", "ch": 7}, {"book": "እዝ", "ch": 8}, {"book": "እዝ", "ch": 9}, {"book": "እዝ", "ch": 10}, {"book": "ነህ", "ch": 1}, {"book": "ነህ", "ch": 2}, {"book": "ነህ", "ch": 3}, {"book": "ነህ", "ch": 4}, {"book": "ነህ", "ch": 5}, {"book": "ነህ", "ch": 6}, {"book": "ግ.ሃ", "ch": 26}, {"book": "ግ.ሃ", "ch": 27}, {"book": "ግ.ሃ", "ch": 28}], "refs": [{"book": "እዝ", "start": 6, "end": 10}, {"book": "ነህ", "start": 1, "end": 6}, {"book": "ግ.ሃ", "start": 26, "end": 28}]}, {"day": 42, "count": 12, "items": [{"book": "ነህ", "ch": 7}, {"book": "ነህ", "ch": 8}, {"book": "ነህ", "ch": 9}, {"book": "ነህ", "ch": 10}, {"book": "ነህ", "ch": 11}, {"book": "ነህ", "ch": 12}, {"book": "ነህ", "ch": 13}, {"book": "ኣስ", "ch": 1}, {"book": "ኣስ", "ch": 2}, {"book": "ሮሜ", "ch": 1}, {"book": "ሮሜ", "ch": 2}, {"book": "ሮሜ", "ch": 3}], "refs": [{"book": "ነህ", "start": 7, "end": 13}, {"book": "ኣስ", "start": 1, "end": 2}, {"book": "ሮሜ", "start": 1, "end": 3}]}, {"day": 43, "count": 12, "items": [{"book": "ኣስ", "ch": 3}, {"book": "ኣስ", "ch": 4}, {"book": "ኣስ", "ch": 5}, {"book": "ኣስ", "ch": 6}, {"book": "ኣስ", "ch": 7}, {"book": "ኣስ", "ch": 8}, {"book": "ኣስ", "ch": 9}, {"book": "ኣስ", "ch": 10}, {"book": "ኢዮ", "ch": 1}, {"book": "ኢዮ", "ch": 2}, {"book": "ሮሜ", "ch": 4}, {"book": "ሮሜ", "ch": 5}], "refs": [{"book": "ኣስ", "start": 3, "end": 10}, {"book": "ኢዮ", "start": 1, "end": 2}, {"book": "ሮሜ", "start": 4, "end": 5}]}, {"day": 44, "count": 14, "items": [{"book": "ኢዮ", "ch": 3}, {"book": "ኢዮ", "ch": 4}, {"book": "ኢዮ", "ch": 5}, {"book": "ኢዮ", "ch": 6}, {"book": "ኢዮ", "ch": 7}, {"book": "ኢዮ", "ch": 8}, {"book": "ኢዮ", "ch": 9}, {"book": "ኢዮ", "ch": 10}, {"book": "ኢዮ", "ch": 11}, {"book": "ኢዮ", "ch": 12}, {"book": "ኢዮ", "ch": 13}, {"book": "ሮሜ", "ch": 6}, {"book": "ሮሜ", "ch": 7}, {"book": "ሮሜ", "ch": 8}], "refs": [{"book": "ኢዮ", "start": 3, "end": 13}, {"book": "ሮሜ", "start": 6, "end": 8}]}, {"day": 45, "count": 13, "items": [{"book": "ኢዮ", "ch": 14}, {"book": "ኢዮ", "ch": 15}, {"book": "ኢዮ", "ch": 16}, {"book": "ኢዮ", "ch": 17}, {"book": "ኢዮ", "ch": 18}, {"book": "ኢዮ", "ch": 19}, {"book": "ኢዮ", "ch": 20}, {"book": "ኢዮ", "ch": 21}, {"book": "ኢዮ", "ch": 22}, {"book": "ኢዮ", "ch": 23}, {"book": "ሮሜ", "ch": 9}, {"book": "ሮሜ", "ch": 10}, {"book": "ሮሜ", "ch": 11}], "refs": [{"book": "ኢዮ", "start": 14, "end": 23}, {"book": "ሮሜ", "start": 9, "end": 11}]}, {"day": 46, "count": 13, "items": [{"book": "ኢዮ", "ch": 24}, {"book": "ኢዮ", "ch": 25}, {"book": "ኢዮ", "ch": 26}, {"book": "ኢዮ", "ch": 27}, {"book": "ኢዮ", "ch": 28}, {"book": "ኢዮ", "ch": 29}, {"book": "ኢዮ", "ch": 30}, {"book": "ኢዮ", "ch": 31}, {"book": "ኢዮ", "ch": 32}, {"book": "ኢዮ", "ch": 33}, {"book": "ሮሜ", "ch": 12}, {"book": "ሮሜ", "ch": 13}, {"book": "ሮሜ", "ch": 14}], "refs": [{"book": "ኢዮ", "start": 24, "end": 33}, {"book": "ሮሜ", "start": 12, "end": 14}]}, {"day": 47, "count": 13, "items": [{"book": "ኢዮ", "ch": 34}, {"book": "ኢዮ", "ch": 35}, {"book": "ኢዮ", "ch": 36}, {"book": "ኢዮ", "ch": 37}, {"book": "ኢዮ", "ch": 38}, {"book": "ኢዮ", "ch": 39}, {"book": "ኢዮ", "ch": 40}, {"book": "ኢዮ", "ch": 41}, {"book": "ኢዮ", "ch": 42}, {"book": "መዝ", "ch": 1}, {"book": "ሮሜ", "ch": 15}, {"book": "ሮሜ", "ch": 16}, {"book": "1ቆሮ", "ch": 1}], "refs": [{"book": "ኢዮ", "start": 34, "end": 42}, {"book": "መዝ", "start": 1, "end": 1}, {"book": "ሮሜ", "start": 15, "end": 16}, {"book": "1ቆሮ", "start": 1, "end": 1}]}, {"day": 48, "count": 14, "items": [{"book": "መዝ", "ch": 2}, {"book": "መዝ", "ch": 3}, {"book": "መዝ", "ch": 4}, {"book": "መዝ", "ch": 5}, {"book": "መዝ", "ch": 6}, {"book": "መዝ", "ch": 7}, {"book": "መዝ", "ch": 8}, {"book": "መዝ", "ch": 9}, {"book": "መዝ", "ch": 10}, {"book": "መዝ", "ch": 11}, {"book": "መዝ", "ch": 12}, {"book": "1ቆሮ", "ch": 2}, {"book": "1ቆሮ", "ch": 3}, {"book": "1ቆሮ", "ch": 4}], "refs": [{"book": "መዝ", "start": 2, "end": 12}, {"book": "1ቆሮ", "start": 2, "end": 4}]}, {"day": 49, "count": 13, "items": [{"book": "መዝ", "ch": 13}, {"book": "መዝ", "ch": 14}, {"book": "መዝ", "ch": 15}, {"book": "መዝ", "ch": 16}, {"book": "መዝ", "ch": 17}, {"book": "መዝ", "ch": 18}, {"book": "መዝ", "ch": 19}, {"book": "መዝ", "ch": 20}, {"book": "መዝ", "ch": 21}, {"book": "መዝ", "ch": 22}, {"book": "1ቆሮ", "ch": 5}, {"book": "1ቆሮ", "ch": 6}, {"book": "1ቆሮ", "ch": 7}], "refs": [{"book": "መዝ", "start": 13, "end": 22}, {"book": "1ቆሮ", "start": 5, "end": 7}]}, {"day": 50, "count": 12, "items": [{"book": "መዝ", "ch": 23}, {"book": "መዝ", "ch": 24}, {"book": "መዝ", "ch": 25}, {"book": "መዝ", "ch": 26}, {"book": "መዝ", "ch": 27}, {"book": "መዝ", "ch": 28}, {"book": "መዝ", "ch": 29}, {"book": "መዝ", "ch": 30}, {"book": "መዝ", "ch": 31}, {"book": "መዝ", "ch": 32}, {"book": "1ቆሮ", "ch": 8}, {"book": "1ቆሮ", "ch": 9}], "refs": [{"book": "መዝ", "start": 23, "end": 32}, {"book": "1ቆሮ", "start": 8, "end": 9}]}, {"day": 51, "count": 13, "items": [{"book": "መዝ", "ch": 33}, {"book": "መዝ", "ch": 34}, {"book": "መዝ", "ch": 35}, {"book": "መዝ", "ch": 36}, {"book": "መዝ", "ch": 37}, {"book": "መዝ", "ch": 38}, {"book": "መዝ", "ch": 39}, {"book": "መዝ", "ch": 40}, {"book": "መዝ", "ch": 41}, {"book": "መዝ", "ch": 42}, {"book": "1ቆሮ", "ch": 10}, {"book": "1ቆሮ", "ch": 11}, {"book": "1ቆሮ", "ch": 12}], "refs": [{"book": "መዝ", "start": 33, "end": 42}, {"book": "1ቆሮ", "start": 10, "end": 12}]}, {"day": 52, "count": 13, "items": [{"book": "መዝ", "ch": 43}, {"book": "መዝ", "ch": 44}, {"book": "መዝ", "ch": 45}, {"book": "መዝ", "ch": 46}, {"book": "መዝ", "ch": 47}, {"book": "መዝ", "ch": 48}, {"book": "መዝ", "ch": 49}, {"book": "መዝ", "ch": 50}, {"book": "መዝ", "ch": 51}, {"book": "መዝ", "ch": 52}, {"book": "1ቆሮ", "ch": 13}, {"book": "1ቆሮ", "ch": 14}, {"book": "1ቆሮ", "ch": 15}], "refs": [{"book": "መዝ", "start": 43, "end": 52}, {"book": "1ቆሮ", "start": 13, "end": 15}]}, {"day": 53, "count": 14, "items": [{"book": "መዝ", "ch": 53}, {"book": "መዝ", "ch": 54}, {"book": "መዝ", "ch": 55}, {"book": "መዝ", "ch": 56}, {"book": "መዝ", "ch": 57}, {"book": "መዝ", "ch": 58}, {"book": "መዝ", "ch": 59}, {"book": "መዝ", "ch": 60}, {"book": "መዝ", "ch": 61}, {"book": "መዝ", "ch": 62}, {"book": "መዝ", "ch": 63}, {"book": "1ቆሮ", "ch": 16}, {"book": "2ቆሮ", "ch": 1}, {"book": "2ቆሮ", "ch": 2}], "refs": [{"book": "መዝ", "start": 53, "end": 63}, {"book": "1ቆሮ", "start": 16, "end": 16}, {"book": "2ቆሮ", "start": 1, "end": 2}]}, {"day": 54, "count": 13, "items": [{"book": "መዝ", "ch": 64}, {"book": "መዝ", "ch": 65}, {"book": "መዝ", "ch": 66}, {"book": "መዝ", "ch": 67}, {"book": "መዝ", "ch": 68}, {"book": "መዝ", "ch": 69}, {"book": "መዝ", "ch": 70}, {"book": "መዝ", "ch": 71}, {"book": "መዝ", "ch": 72}, {"book": "መዝ", "ch": 73}, {"book": "2ቆሮ", "ch": 3}, {"book": "2ቆሮ", "ch": 4}, {"book": "2ቆሮ", "ch": 5}], "refs": [{"book": "መዝ", "start": 64, "end": 73}, {"book": "2ቆሮ", "start": 3, "end": 5}]}, {"day": 55, "count": 13, "items": [{"book": "መዝ", "ch": 74}, {"book": "መዝ", "ch": 75}, {"book": "መዝ", "ch": 76}, {"book": "መዝ", "ch": 77}, {"book": "መዝ", "ch": 78}, {"book": "መዝ", "ch": 79}, {"book": "መዝ", "ch": 80}, {"book": "መዝ", "ch": 81}, {"book": "መዝ", "ch": 82}, {"book": "መዝ", "ch": 83}, {"book": "2ቆሮ", "ch": 6}, {"book": "2ቆሮ", "ch": 7}, {"book": "2ቆሮ", "ch": 8}], "refs": [{"book": "መዝ", "start": 74, "end": 83}, {"book": "2ቆሮ", "start": 6, "end": 8}]}, {"day": 56, "count": 13, "items": [{"book": "መዝ", "ch": 84}, {"book": "መዝ", "ch": 85}, {"book": "መዝ", "ch": 86}, {"book": "መዝ", "ch": 87}, {"book": "መዝ", "ch": 88}, {"book": "መዝ", "ch": 89}, {"book": "መዝ", "ch": 90}, {"book": "መዝ", "ch": 91}, {"book": "መዝ", "ch": 92}, {"book": "መዝ", "ch": 93}, {"book": "2ቆሮ", "ch": 9}, {"book": "2ቆሮ", "ch": 10}, {"book": "2ቆሮ", "ch": 11}], "refs": [{"book": "መዝ", "start": 84, "end": 93}, {"book": "2ቆሮ", "start": 9, "end": 11}]}, {"day": 57, "count": 12, "items": [{"book": "መዝ", "ch": 94}, {"book": "መዝ", "ch": 95}, {"book": "መዝ", "ch": 96}, {"book": "መዝ", "ch": 97}, {"book": "መዝ", "ch": 98}, {"book": "መዝ", "ch": 99}, {"book": "መዝ", "ch": 100}, {"book": "መዝ", "ch": 101}, {"book": "መዝ", "ch": 102}, {"book": "መዝ", "ch": 103}, {"book": "2ቆሮ", "ch": 12}, {"book": "2ቆሮ", "ch": 13}], "refs": [{"book": "መዝ", "start": 94, "end": 103}, {"book": "2ቆሮ", "start": 12, "end": 13}]}, {"day": 58, "count": 14, "items": [{"book": "መዝ", "ch": 104}, {"book": "መዝ", "ch": 105}, {"book": "መዝ", "ch": 106}, {"book": "መዝ", "ch": 107}, {"book": "መዝ", "ch": 108}, {"book": "መዝ", "ch": 109}, {"book": "መዝ", "ch": 110}, {"book": "መዝ", "ch": 111}, {"book": "መዝ", "ch": 112}, {"book": "መዝ", "ch": 113}, {"book": "መዝ", "ch": 114}, {"book": "ገላ", "ch": 1}, {"book": "ገላ", "ch": 2}, {"book": "ገላ", "ch": 3}], "refs": [{"book": "መዝ", "start": 104, "end": 114}, {"book": "ገላ", "start": 1, "end": 3}]}, {"day": 59, "count": 13, "items": [{"book": "መዝ", "ch": 115}, {"book": "መዝ", "ch": 116}, {"book": "መዝ", "ch": 117}, {"book": "መዝ", "ch": 118}, {"book": "መዝ", "ch": 119}, {"book": "መዝ", "ch": 120}, {"book": "መዝ", "ch": 121}, {"book": "መዝ", "ch": 122}, {"book": "መዝ", "ch": 123}, {"book": "መዝ", "ch": 124}, {"book": "ገላ", "ch": 4}, {"book": "ገላ", "ch": 5}, {"book": "ገላ", "ch": 6}], "refs": [{"book": "መዝ", "start": 115, "end": 124}, {"book": "ገላ", "start": 4, "end": 6}]}, {"day": 60, "count": 13, "items": [{"book": "መዝ", "ch": 125}, {"book": "መዝ", "ch": 126}, {"book": "መዝ", "ch": 127}, {"book": "መዝ", "ch": 128}, {"book": "መዝ", "ch": 129}, {"book": "መዝ", "ch": 130}, {"book": "መዝ", "ch": 131}, {"book": "መዝ", "ch": 132}, {"book": "መዝ", "ch": 133}, {"book": "መዝ", "ch": 134}, {"book": "ኤፌ", "ch": 1}, {"book": "ኤፌ", "ch": 2}, {"book": "ኤፌ", "ch": 3}], "refs": [{"book": "መዝ", "start": 125, "end": 134}, {"book": "ኤፌ", "start": 1, "end": 3}]}, {"day": 61, "count": 13, "items": [{"book": "መዝ", "ch": 135}, {"book": "መዝ", "ch": 136}, {"book": "መዝ", "ch": 137}, {"book": "መዝ", "ch": 138}, {"book": "መዝ", "ch": 139}, {"book": "መዝ", "ch": 140}, {"book": "መዝ", "ch": 141}, {"book": "መዝ", "ch": 142}, {"book": "መዝ", "ch": 143}, {"book": "መዝ", "ch": 144}, {"book": "ኤፌ", "ch": 4}, {"book": "ኤፌ", "ch": 5}, {"book": "ኤፌ", "ch": 6}], "refs": [{"book": "መዝ", "start": 135, "end": 144}, {"book": "ኤፌ", "start": 4, "end": 6}]}, {"day": 62, "count": 13, "items": [{"book": "መዝ", "ch": 145}, {"book": "መዝ", "ch": 146}, {"book": "መዝ", "ch": 147}, {"book": "መዝ", "ch": 148}, {"book": "መዝ", "ch": 149}, {"book": "መዝ", "ch": 150}, {"book": "ምሳ", "ch": 1}, {"book": "ምሳ", "ch": 2}, {"book": "ምሳ", "ch": 3}, {"book": "ምሳ", "ch": 4}, {"book": "ፊሊ", "ch": 1}, {"book": "ፊሊ", "ch": 2}, {"book": "ፊሊ", "ch": 3}], "refs": [{"book": "መዝ", "start": 145, "end": 150}, {"book": "ምሳ", "start": 1, "end": 4}, {"book": "ፊሊ", "start": 1, "end": 3}]}, {"day": 63, "count": 14, "items": [{"book": "ምሳ", "ch": 5}, {"book": "ምሳ", "ch": 6}, {"book": "ምሳ", "ch": 7}, {"book": "ምሳ", "ch": 8}, {"book": "ምሳ", "ch": 9}, {"book": "ምሳ", "ch": 10}, {"book": "ምሳ", "ch": 11}, {"book": "ምሳ", "ch": 12}, {"book": "ምሳ", "ch": 13}, {"book": "ምሳ", "ch": 14}, {"book": "ምሳ", "ch": 15}, {"book": "ፊሊ", "ch": 4}, {"book": "ቆሎ", "ch": 1}, {"book": "ቆሎ", "ch": 2}], "refs": [{"book": "ምሳ", "start": 5, "end": 15}, {"book": "ፊሊ", "start": 4, "end": 4}, {"book": "ቆሎ", "start": 1, "end": 2}]}, {"day": 64, "count": 12, "items": [{"book": "ምሳ", "ch": 16}, {"book": "ምሳ", "ch": 17}, {"book": "ምሳ", "ch": 18}, {"book": "ምሳ", "ch": 19}, {"book": "ምሳ", "ch": 20}, {"book": "ምሳ", "ch": 21}, {"book": "ምሳ", "ch": 22}, {"book": "ምሳ", "ch": 23}, {"book": "ምሳ", "ch": 24}, {"book": "ምሳ", "ch": 25}, {"book": "ቆሎ", "ch": 3}, {"book": "ቆሎ", "ch": 4}], "refs": [{"book": "ምሳ", "start": 16, "end": 25}, {"book": "ቆሎ", "start": 3, "end": 4}]}, {"day": 65, "count": 13, "items": [{"book": "ምሳ", "ch": 26}, {"book": "ምሳ", "ch": 27}, {"book": "ምሳ", "ch": 28}, {"book": "ምሳ", "ch": 29}, {"book": "ምሳ", "ch": 30}, {"book": "ምሳ", "ch": 31}, {"book": "መክ", "ch": 1}, {"book": "መክ", "ch": 2}, {"book": "መክ", "ch": 3}, {"book": "መክ", "ch": 4}, {"book": "1ተሰ", "ch": 1}, {"book": "1ተሰ", "ch": 2}, {"book": "1ተሰ", "ch": 3}], "refs": [{"book": "ምሳ", "start": 26, "end": 31}, {"book": "መክ", "start": 1, "end": 4}, {"book": "1ተሰ", "start": 1, "end": 3}]}, {"day": 66, "count": 12, "items": [{"book": "መክ", "ch": 5}, {"book": "መክ", "ch": 6}, {"book": "መክ", "ch": 7}, {"book": "መክ", "ch": 8}, {"book": "መክ", "ch": 9}, {"book": "መክ", "ch": 10}, {"book": "መክ", "ch": 11}, {"book": "መክ", "ch": 12}, {"book": "መሃ", "ch": 1}, {"book": "መሃ", "ch": 2}, {"book": "1ተሰ", "ch": 4}, {"book": "1ተሰ", "ch": 5}], "refs": [{"book": "መክ", "start": 5, "end": 12}, {"book": "መሃ", "start": 1, "end": 2}, {"book": "1ተሰ", "start": 4, "end": 5}]}, {"day": 67, "count": 13, "items": [{"book": "መሃ", "ch": 3}, {"book": "መሃ", "ch": 4}, {"book": "መሃ", "ch": 5}, {"book": "መሃ", "ch": 6}, {"book": "መሃ", "ch": 7}, {"book": "መሃ", "ch": 8}, {"book": "ኢሳ", "ch": 1}, {"book": "ኢሳ", "ch": 2}, {"book": "ኢሳ", "ch": 3}, {"book": "ኢሳ", "ch": 4}, {"book": "2ተሰ", "ch": 1}, {"book": "2ተሰ", "ch": 2}, {"book": "2ተሰ", "ch": 3}], "refs": [{"book": "መሃ", "start": 3, "end": 8}, {"book": "ኢሳ", "start": 1, "end": 4}, {"book": "2ተሰ", "start": 1, "end": 3}]}, {"day": 68, "count": 15, "items": [{"book": "ኢሳ", "ch": 5}, {"book": "ኢሳ", "ch": 6}, {"book": "ኢሳ", "ch": 7}, {"book": "ኢሳ", "ch": 8}, {"book": "ኢሳ", "ch": 9}, {"book": "ኢሳ", "ch": 10}, {"book": "ኢሳ", "ch": 11}, {"book": "ኢሳ", "ch": 12}, {"book": "ኢሳ", "ch": 13}, {"book": "ኢሳ", "ch": 14}, {"book": "ኢሳ", "ch": 15}, {"book": "1ጢሞ", "ch": 1}, {"book": "1ጢሞ", "ch": 2}, {"book": "1ጢሞ", "ch": 3}, {"book": "1ጢሞ", "ch": 4}], "refs": [{"book": "ኢሳ", "start": 5, "end": 15}, {"book": "1ጢሞ", "start": 1, "end": 4}]}, {"day": 69, "count": 12, "items": [{"book": "ኢሳ", "ch": 16}, {"book": "ኢሳ", "ch": 17}, {"book": "ኢሳ", "ch": 18}, {"book": "ኢሳ", "ch": 19}, {"book": "ኢሳ", "ch": 20}, {"book": "ኢሳ", "ch": 21}, {"book": "ኢሳ", "ch": 22}, {"book": "ኢሳ", "ch": 23}, {"book": "ኢሳ", "ch": 24}, {"book": "ኢሳ", "ch": 25}, {"book": "1ጢሞ", "ch": 5}, {"book": "1ጢሞ", "ch": 6}], "refs": [{"book": "ኢሳ", "start": 16, "end": 25}, {"book": "1ጢሞ", "start": 5, "end": 6}]}, {"day": 70, "count": 14, "items": [{"book": "ኢሳ", "ch": 26}, {"book": "ኢሳ", "ch": 27}, {"book": "ኢሳ", "ch": 28}, {"book": "ኢሳ", "ch": 29}, {"book": "ኢሳ", "ch": 30}, {"book": "ኢሳ", "ch": 31}, {"book": "ኢሳ", "ch": 32}, {"book": "ኢሳ", "ch": 33}, {"book": "ኢሳ", "ch": 34}, {"book": "ኢሳ", "ch": 35}, {"book": "2ጢሞ", "ch": 1}, {"book": "2ጢሞ", "ch": 2}, {"book": "2ጢሞ", "ch": 3}, {"book": "2ጢሞ", "ch": 4}], "refs": [{"book": "ኢሳ", "start": 26, "end": 35}, {"book": "2ጢሞ", "start": 1, "end": 4}]}, {"day": 71, "count": 13, "items": [{"book": "ኢሳ", "ch": 36}, {"book": "ኢሳ", "ch": 37}, {"book": "ኢሳ", "ch": 38}, {"book": "ኢሳ", "ch": 39}, {"book": "ኢሳ", "ch": 40}, {"book": "ኢሳ", "ch": 41}, {"book": "ኢሳ", "ch": 42}, {"book": "ኢሳ", "ch": 43}, {"book": "ኢሳ", "ch": 44}, {"book": "ኢሳ", "ch": 45}, {"book": "ቲቶ", "ch": 1}, {"book": "ቲቶ", "ch": 2}, {"book": "ቲቶ", "ch": 3}], "refs": [{"book": "ኢሳ", "start": 36, "end": 45}, {"book": "ቲቶ", "start": 1, "end": 3}]}, {"day": 72, "count": 13, "items": [{"book": "ኢሳ", "ch": 46}, {"book": "ኢሳ", "ch": 47}, {"book": "ኢሳ", "ch": 48}, {"book": "ኢሳ", "ch": 49}, {"book": "ኢሳ", "ch": 50}, {"book": "ኢሳ", "ch": 51}, {"book": "ኢሳ", "ch": 52}, {"book": "ኢሳ", "ch": 53}, {"book": "ኢሳ", "ch": 54}, {"book": "ኢሳ", "ch": 55}, {"book": "ኢሳ", "ch": 56}, {"book": "ፊሊ", "ch": 1}, {"book": "እብ", "ch": 1}], "refs": [{"book": "ኢሳ", "start": 46, "end": 56}, {"book": "ፊሊ", "start": 1, "end": 1}, {"book": "እብ", "start": 1, "end": 1}]}, {"day": 73, "count": 13, "items": [{"book": "ኢሳ", "ch": 57}, {"book": "ኢሳ", "ch": 58}, {"book": "ኢሳ", "ch": 59}, {"book": "ኢሳ", "ch": 60}, {"book": "ኢሳ", "ch": 61}, {"book": "ኢሳ", "ch": 62}, {"book": "ኢሳ", "ch": 63}, {"book": "ኢሳ", "ch": 64}, {"book": "ኢሳ", "ch": 65}, {"book": "ኢሳ", "ch": 66}, {"book": "እብ", "ch": 2}, {"book": "እብ", "ch": 3}, {"book": "እብ", "ch": 4}], "refs": [{"book": "ኢሳ", "start": 57, "end": 66}, {"book": "እብ", "start": 2, "end": 4}]}, {"day": 74, "count": 13, "items": [{"book": "ኤር", "ch": 1}, {"book": "ኤር", "ch": 2}, {"book": "ኤር", "ch": 3}, {"book": "ኤር", "ch": 4}, {"book": "ኤር", "ch": 5}, {"book": "ኤር", "ch": 6}, {"book": "ኤር", "ch": 7}, {"book": "ኤር", "ch": 8}, {"book": "ኤር", "ch": 9}, {"book": "ኤር", "ch": 10}, {"book": "እብ", "ch": 5}, {"book": "እብ", "ch": 6}, {"book": "እብ", "ch": 7}], "refs": [{"book": "ኤር", "start": 1, "end": 10}, {"book": "እብ", "start": 5, "end": 7}]}, {"day": 75, "count": 13, "items": [{"book": "ኤር", "ch": 11}, {"book": "ኤር", "ch": 12}, {"book": "ኤር", "ch": 13}, {"book": "ኤር", "ch": 14}, {"book": "ኤር", "ch": 15}, {"book": "ኤር", "ch": 16}, {"book": "ኤር", "ch": 17}, {"book": "ኤር", "ch": 18}, {"book": "ኤር", "ch": 19}, {"book": "ኤር", "ch": 20}, {"book": "እብ", "ch": 8}, {"book": "እብ", "ch": 9}, {"book": "እብ", "ch": 10}], "refs": [{"book": "ኤር", "start": 11, "end": 20}, {"book": "እብ", "start": 8, "end": 10}]}, {"day": 76, "count": 13, "items": [{"book": "ኤር", "ch": 21}, {"book": "ኤር", "ch": 22}, {"book": "ኤር", "ch": 23}, {"book": "ኤር", "ch": 24}, {"book": "ኤር", "ch": 25}, {"book": "ኤር", "ch": 26}, {"book": "ኤር", "ch": 27}, {"book": "ኤር", "ch": 28}, {"book": "ኤር", "ch": 29}, {"book": "ኤር", "ch": 30}, {"book": "እብ", "ch": 11}, {"book": "እብ", "ch": 12}, {"book": "እብ", "ch": 13}], "refs": [{"book": "ኤር", "start": 21, "end": 30}, {"book": "እብ", "start": 11, "end": 13}]}, {"day": 77, "count": 14, "items": [{"book": "ኤር", "ch": 31}, {"book": "ኤር", "ch": 32}, {"book": "ኤር", "ch": 33}, {"book": "ኤር", "ch": 34}, {"book": "ኤር", "ch": 35}, {"book": "ኤር", "ch": 36}, {"book": "ኤር", "ch": 37}, {"book": "ኤር", "ch": 38}, {"book": "ኤር", "ch": 39}, {"book": "ኤር", "ch": 40}, {"book": "ኤር", "ch": 41}, {"book": "ያቆ", "ch": 1}, {"book": "ያቆ", "ch": 2}, {"book": "ያቆ", "ch": 3}], "refs": [{"book": "ኤር", "start": 31, "end": 41}, {"book": "ያቆ", "start": 1, "end": 3}]}, {"day": 78, "count": 13, "items": [{"book": "ኤር", "ch": 42}, {"book": "ኤር", "ch": 43}, {"book": "ኤር", "ch": 44}, {"book": "ኤር", "ch": 45}, {"book": "ኤር", "ch": 46}, {"book": "ኤር", "ch": 47}, {"book": "ኤር", "ch": 48}, {"book": "ኤር", "ch": 49}, {"book": "ኤር", "ch": 50}, {"book": "ኤር", "ch": 51}, {"book": "ኤር", "ch": 52}, {"book": "ያቆ", "ch": 4}, {"book": "ያቆ", "ch": 5}], "refs": [{"book": "ኤር", "start": 42, "end": 52}, {"book": "ያቆ", "start": 4, "end": 5}]}, {"day": 79, "count": 12, "items": [{"book": "ድ.ኤ", "ch": 1}, {"book": "ድ.ኤ", "ch": 2}, {"book": "ድ.ኤ", "ch": 3}, {"book": "ድ.ኤ", "ch": 4}, {"book": "ድ.ኤ", "ch": 5}, {"book": "ህዝ", "ch": 1}, {"book": "ህዝ", "ch": 2}, {"book": "ህዝ", "ch": 3}, {"book": "ህዝ", "ch": 4}, {"book": "1ጴጥ", "ch": 1}, {"book": "1ጴጥ", "ch": 2}, {"book": "1ጴጥ", "ch": 3}], "refs": [{"book": "ድ.ኤ", "start": 1, "end": 5}, {"book": "ህዝ", "start": 1, "end": 4}, {"book": "1ጴጥ", "start": 1, "end": 3}]}, {"day": 80, "count": 12, "items": [{"book": "ህዝ", "ch": 5}, {"book": "ህዝ", "ch": 6}, {"book": "ህዝ", "ch": 7}, {"book": "ህዝ", "ch": 8}, {"book": "ህዝ", "ch": 9}, {"book": "ህዝ", "ch": 10}, {"book": "ህዝ", "ch": 11}, {"book": "ህዝ", "ch": 12}, {"book": "ህዝ", "ch": 13}, {"book": "ህዝ", "ch": 14}, {"book": "1ጴጥ", "ch": 4}, {"book": "1ጴጥ", "ch": 5}], "refs": [{"book": "ህዝ", "start": 5, "end": 14}, {"book": "1ጴጥ", "start": 4, "end": 5}]}, {"day": 81, "count": 13, "items": [{"book": "ህዝ", "ch": 15}, {"book": "ህዝ", "ch": 16}, {"book": "ህዝ", "ch": 17}, {"book": "ህዝ", "ch": 18}, {"book": "ህዝ", "ch": 19}, {"book": "ህዝ", "ch": 20}, {"book": "ህዝ", "ch": 21}, {"book": "ህዝ", "ch": 22}, {"book": "ህዝ", "ch": 23}, {"book": "ህዝ", "ch": 24}, {"book": "2ጴጥ", "ch": 1}, {"book": "2ጴጥ", "ch": 2}, {"book": "2ጴጥ", "ch": 3}], "refs": [{"book": "ህዝ", "start": 15, "end": 24}, {"book": "2ጴጥ", "start": 1, "end": 3}]}, {"day": 82, "count": 16, "items": [{"book": "ህዝ", "ch": 25}, {"book": "ህዝ", "ch": 26}, {"book": "ህዝ", "ch": 27}, {"book": "ህዝ", "ch": 28}, {"book": "ህዝ", "ch": 29}, {"book": "ህዝ", "ch": 30}, {"book": "ህዝ", "ch": 31}, {"book": "ህዝ", "ch": 32}, {"book": "ህዝ", "ch": 33}, {"book": "ህዝ", "ch": 34}, {"book": "ህዝ", "ch": 35}, {"book": "1ዮሃ", "ch": 1}, {"book": "1ዮሃ", "ch": 2}, {"book": "1ዮሃ", "ch": 3}, {"book": "1ዮሃ", "ch": 4}, {"book": "1ዮሃ", "ch": 5}], "refs": [{"book": "ህዝ", "start": 25, "end": 35}, {"book": "1ዮሃ", "start": 1, "end": 5}]}, {"day": 83, "count": 12, "items": [{"book": "ህዝ", "ch": 36}, {"book": "ህዝ", "ch": 37}, {"book": "ህዝ", "ch": 38}, {"book": "ህዝ", "ch": 39}, {"book": "ህዝ", "ch": 40}, {"book": "ህዝ", "ch": 41}, {"book": "ህዝ", "ch": 42}, {"book": "ህዝ", "ch": 43}, {"book": "ህዝ", "ch": 44}, {"book": "ህዝ", "ch": 45}, {"book": "2ዮሃ", "ch": 1}, {"book": "3ዮሃ", "ch": 1}], "refs": [{"book": "ህዝ", "start": 36, "end": 45}, {"book": "2ዮሃ", "start": 1, "end": 1}, {"book": "3ዮሃ", "start": 1, "end": 1}]}, {"day": 84, "count": 13, "items": [{"book": "ህዝ", "ch": 46}, {"book": "ህዝ", "ch": 47}, {"book": "ህዝ", "ch": 48}, {"book": "ዳን", "ch": 1}, {"book": "ዳን", "ch": 2}, {"book": "ዳን", "ch": 3}, {"book": "ዳን", "ch": 4}, {"book": "ዳን", "ch": 5}, {"book": "ዳን", "ch": 6}, {"book": "ዳን", "ch": 7}, {"book": "ይሁ", "ch": 1}, {"book": "ራእ", "ch": 1}, {"book": "ራእ", "ch": 2}], "refs": [{"book": "ህዝ", "start": 46, "end": 48}, {"book": "ዳን", "start": 1, "end": 7}, {"book": "ይሁ", "start": 1, "end": 1}, {"book": "ራእ", "start": 1, "end": 2}]}, {"day": 85, "count": 12, "items": [{"book": "ዳን", "ch": 8}, {"book": "ዳን", "ch": 9}, {"book": "ዳን", "ch": 10}, {"book": "ዳን", "ch": 11}, {"book": "ዳን", "ch": 12}, {"book": "ሆሴ", "ch": 1}, {"book": "ሆሴ", "ch": 2}, {"book": "ሆሴ", "ch": 3}, {"book": "ሆሴ", "ch": 4}, {"book": "ሆሴ", "ch": 5}, {"book": "ራእ", "ch": 3}, {"book": "ራእ", "ch": 4}], "refs": [{"book": "ዳን", "start": 8, "end": 12}, {"book": "ሆሴ", "start": 1, "end": 5}, {"book": "ራእ", "start": 3, "end": 4}]}, {"day": 86, "count": 15, "items": [{"book": "ሆአሴ", "ch": 6}, {"book": "ሆአሴ", "ch": 7}, {"book": "ሆአሴ", "ch": 8}, {"book": "ሆአሴ", "ch": 9}, {"book": "ሆአሴ", "ch": 10}, {"book": "ሆአሴ", "ch": 11}, {"book": "ሆአሴ", "ch": 12}, {"book": "ሆአሴ", "ch": 13}, {"book": "ሆአሴ", "ch": 14}, {"book": "ዮኤ", "ch": 1}, {"book": "ዮኤ", "ch": 2}, {"book": "ዮኤ", "ch": 3}, {"book": "ራእ", "ch": 5}, {"book": "ራእ", "ch": 6}, {"book": "ራእ", "ch": 7}], "refs": [{"book": "ሆአሴ", "start": 6, "end": 14}, {"book": "ዮኤ", "start": 1, "end": 3}, {"book": "ራእ", "start": 5, "end": 7}]}, {"day": 87, "count": 13, "items": [{"book": "ኣሞ", "ch": 1}, {"book": "ኣሞ", "ch": 2}, {"book": "ኣሞ", "ch": 3}, {"book": "ኣሞ", "ch": 4}, {"book": "ኣሞ", "ch": 5}, {"book": "ኣሞ", "ch": 6}, {"book": "ኣሞ", "ch": 7}, {"book": "ኣሞ", "ch": 8}, {"book": "ኣሞ", "ch": 9}, {"book": "ኦብ", "ch": 1}, {"book": "ራእ", "ch": 8}, {"book": "ራእ", "ch": 9}, {"book": "ራእ", "ch": 10}], "refs": [{"book": "ኣሞ", "start": 1, "end": 9}, {"book": "ኦብ", "start": 1, "end": 1}, {"book": "ራእ", "start": 8, "end": 10}]}, {"day": 88, "count": 14, "items": [{"book": "ዮና", "ch": 1}, {"book": "ዮና", "ch": 2}, {"book": "ዮና", "ch": 3}, {"book": "ዮና", "ch": 4}, {"book": "ሚክ", "ch": 1}, {"book": "ሚክ", "ch": 2}, {"book": "ሚክ", "ch": 3}, {"book": "ሚክ", "ch": 4}, {"book": "ሚክ", "ch": 5}, {"book": "ሚክ", "ch": 6}, {"book": "ሚክ", "ch": 7}, {"book": "ራእ", "ch": 11}, {"book": "ራእ", "ch": 12}, {"book": "ራእ", "ch": 13}], "refs": [{"book": "ዮና", "start": 1, "end": 4}, {"book": "ሚክ", "start": 1, "end": 7}, {"book": "ራእ", "start": 11, "end": 13}]}, {"day": 89, "count": 15, "items": [{"book": "ናሆ", "ch": 1}, {"book": "ናሆ", "ch": 2}, {"book": "ናሆ", "ch": 3}, {"book": "እምባ", "ch": 1}, {"book": "እምባ", "ch": 2}, {"book": "እምባ", "ch": 3}, {"book": "ጸፋ", "ch": 1}, {"book": "ጸፋ", "ch": 2}, {"book": "ጸፋ", "ch": 3}, {"book": "ራእ", "ch": 14}, {"book": "ራእ", "ch": 15}, {"book": "ራእ", "ch": 16}, {"book": "ራእ", "ch": 17}, {"book": "ራእ", "ch": 18}, {"book": "ራእ", "ch": 19}], "refs": [{"book": "ናሆ", "start": 1, "end": 3}, {"book": "እምባ", "start": 1, "end": 3}, {"book": "ጸፋ", "start": 1, "end": 3}, {"book": "ራእ", "start": 14, "end": 19}]}, {"day": 90, "count": 23, "items": [{"book": "ሃጌ", "ch": 1}, {"book": "ሃጌ", "ch": 2}, {"book": "ዘካ", "ch": 1}, {"book": "ዘካ", "ch": 2}, {"book": "ዘካ", "ch": 3}, {"book": "ዘካ", "ch": 4}, {"book": "ዘካ", "ch": 5}, {"book": "ዘካ", "ch": 6}, {"book": "ዘካ", "ch": 7}, {"book": "ዘካ", "ch": 8}, {"book": "ዘካ", "ch": 9}, {"book": "ዘካ", "ch": 10}, {"book": "ዘካ", "ch": 11}, {"book": "ዘካ", "ch": 12}, {"book": "ዘካ", "ch": 13}, {"book": "ዘካ", "ch": 14}, {"book": "ሚል", "ch": 1}, {"book": "ሚል", "ch": 2}, {"book": "ሚል", "ch": 3}, {"book": "ሚል", "ch": 4}, {"book": "ራእ", "ch": 20}, {"book": "ራእ", "ch": 21}, {"book": "ራእ", "ch": 22}], "refs": [{"book": "ሃጌ", "start": 1, "end": 2}, {"book": "ዘካ", "start": 1, "end": 14}, {"book": "ሚል", "start": 1, "end": 4}, {"book": "ራእ", "start": 20, "end": 22}]}];
+function loadState(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return {checks:{}, notes:{}, pages:null, gallery:null, admin:null};
+        const s = JSON.parse(raw);
+        return {
+          checks: s.checks || {}, notes: s.notes || {},
+          pages: s.pages || null, gallery: s.gallery || null, admin: s.admin || null
+        };
+      }catch{ return {checks:{}, notes:{}, pages:null, gallery:null, admin:null}; }
+    }
+    function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    let state = loadState();
+    let activeDay = 1;
+
+    const el = (id)=> document.getElementById(id);
+    function dayKey(day){ return `day-${day}`; }
+
+    function ensureDayArray(day){
+      const key = dayKey(day);
+      const needed = PLAN[day-1].items.length;
+      if (!Array.isArray(state.checks[key]) || state.checks[key].length !== needed){
+        state.checks[key] = Array.from({length: needed}, () => false);
+      }
+      if (typeof state.notes[key] !== "string") state.notes[key] = "";
+    }
+    function dayProgress(day){
+      ensureDayArray(day);
+      const arr = state.checks[dayKey(day)];
+      const done = arr.filter(Boolean).length;
+      return {done, total: arr.length, pct: arr.length ? done/arr.length : 0};
+    }
+    function overallProgress(){
+      let done = 0, total = 0;
+      for (let d=1; d<=TOTAL_DAYS; d++){ const p = dayProgress(d); done += p.done; total += p.total; }
+      return {done, total, pct: total ? done/total : 0};
+    }
+    function daysCompletedCount(){
+      let c = 0;
+      for (let d=1; d<=TOTAL_DAYS; d++){ const p = dayProgress(d); if (p.done === p.total && p.total) c++; }
+      return c;
+    }
+    function streakFromDay1(){
+      let s = 0;
+      for (let d=1; d<=TOTAL_DAYS; d++){ const p = dayProgress(d); if (p.done === p.total && p.total) s++; else break; }
+      return s;
+    }
+    function statusBadgeForDay(day){
+      const p = dayProgress(day);
+      if (p.done === 0) return {cls:"none", text:"Not started"};
+      if (p.done === p.total) return {cls:"done", text:"Completed"};
+      return {cls:"part", text:`In progress ${p.done}/${p.total}`};
+    }
+    function toast(msg){
+      const t = el("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      clearTimeout(toast._t);
+      toast._t = setTimeout(()=> t.classList.remove("show"), 1400);
+    }
+
+    function renderKPIs(){
+      const o = overallProgress();
+      const pct = Math.round(o.pct * 100);
+      el("hdrProgress").textContent = `${pct}%`;
+      el("hdrCh").textContent = `${o.done}/${TOTAL_CHAPTERS}`;
+      el("kpiDaysDone").textContent = String(daysCompletedCount());
+      el("kpiChDone").textContent = String(o.done);
+      el("kpiStreak").textContent = String(streakFromDay1());
+      el("barFill").style.width = `${pct}%`;
+      el("barText").textContent = `${pct}% complete`;
+    }
+
+    function renderDayList(filter=""){
+      const q = filter.trim().toLowerCase();
+      const wrap = el("dayList");
+      wrap.innerHTML = "";
+      for (const d of PLAN){
+        const hay = [`day ${d.day}`, ...d.refs.map(r=>r.book)].join(" ").toLowerCase();
+        if (q && !hay.includes(q)) continue;
+        const b = statusBadgeForDay(d.day);
+        const item = document.createElement("div");
+        item.className = "dayItem" + (d.day === activeDay ? " active" : "");
+        const left = document.createElement("div");
+        const title = document.createElement("div");
+        title.className = "title";
+        title.textContent = `Day ${d.day}`;
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.textContent = d.refs.map(r => r.start===r.end ? `${r.book} ${r.start}` : `${r.book} ${r.start}-${r.end}`).join("; ");
+        left.appendChild(title); left.appendChild(meta);
+        const badge = document.createElement("div");
+        badge.className = `badge ${b.cls}`;
+        badge.textContent = b.text;
+        item.appendChild(left); item.appendChild(badge);
+        item.addEventListener("click", ()=> setActiveDay(d.day));
+        wrap.appendChild(item);
+      }
+    }
+
+    function renderActiveDay(){
+      ensureDayArray(activeDay);
+      const day = PLAN[activeDay-1];
+      el("dayTitle").textContent = `Day ${day.day}`;
+      el("dayMeta").textContent = `${day.count} chapters`;
+      const b = statusBadgeForDay(activeDay);
+      const badgeEl = el("dayStatusBadge");
+      badgeEl.className = `badge ${b.cls}`;
+      badgeEl.textContent = b.text;
+      const refsWrap = el("refs");
+      refsWrap.innerHTML = "";
+      const checks = state.checks[dayKey(activeDay)];
+      day.items.forEach((it, idx)=>{
+        const row = document.createElement("div");
+        row.className = "refRow";
+        const idxEl = document.createElement("div");
+        idxEl.className = "idx";
+        idxEl.textContent = String(idx+1).padStart(2,"0");
+        const refEl = document.createElement("div");
+        refEl.className = "ref";
+        refEl.textContent = `${it.book} ${it.ch}`;
+        const lab = document.createElement("label");
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = !!checks[idx];
+        cb.addEventListener("change", ()=>{
+          checks[idx] = cb.checked;
+          saveState();
+          renderKPIs();
+          renderDayList(el("search").value);
+          renderActiveDay();
+          updateHeroFocus();
+        });
+        const txt = document.createElement("span");
+        txt.textContent = cb.checked ? "Done" : "To do";
+        lab.appendChild(cb); lab.appendChild(txt);
+        row.appendChild(idxEl); row.appendChild(refEl); row.appendChild(lab);
+        refsWrap.appendChild(row);
+      });
+      el("notes").value = state.notes[dayKey(activeDay)] || "";
+    }
+
+    function setActiveDay(day){
+      activeDay = Math.max(1, Math.min(TOTAL_DAYS, day));
+      renderDayList(el("search").value);
+      renderActiveDay();
+      updateHeroFocus();
+    }
+
+    function jumpToNextIncomplete(){
+      for (let d=1; d<=TOTAL_DAYS; d++){ const p = dayProgress(d); if (p.done < p.total) { setActiveDay(d); toast("Jumped"); return; } }
+      setActiveDay(TOTAL_DAYS);
+      toast("All done 🎉");
+    }
+
+    el("btnPrev").addEventListener("click", ()=> setActiveDay(activeDay-1));
+    el("btnNext").addEventListener("click", ()=> setActiveDay(activeDay+1));
+    el("btnJump").addEventListener("click", jumpToNextIncomplete);
+
+    el("btnMarkAll").addEventListener("click", ()=>{
+      ensureDayArray(activeDay);
+      state.checks[dayKey(activeDay)] = state.checks[dayKey(activeDay)].map(()=>true);
+      saveState(); toast("Marked all");
+      renderKPIs(); renderDayList(el("search").value); renderActiveDay(); updateHeroFocus();
+    });
+    el("btnClearAll").addEventListener("click", ()=>{
+      ensureDayArray(activeDay);
+      state.checks[dayKey(activeDay)] = state.checks[dayKey(activeDay)].map(()=>false);
+      saveState(); toast("Cleared");
+      renderKPIs(); renderDayList(el("search").value); renderActiveDay(); updateHeroFocus();
+    });
+    el("notes").addEventListener("input", ()=>{ state.notes[dayKey(activeDay)] = el("notes").value; saveState(); });
+    el("search").addEventListener("input", ()=> renderDayList(el("search").value));
+
+    el("btnExport").addEventListener("click", ()=>{
+      const payload = {version:"bible90_pwa_v2_admin", exportedAt:new Date().toISOString(), state};
+      const blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = "bible90-progress.json";
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+      toast("Exported");
+    });
+    el("btnImport").addEventListener("click", ()=>{
+      const inp = document.createElement("input");
+      inp.type = "file"; inp.accept = "application/json";
+      inp.onchange = async ()=>{
+        const file = inp.files && inp.files[0]; if (!file) return;
+        try{
+          const obj = JSON.parse(await file.text());
+          if (!obj?.state) throw new Error("bad");
+          state = obj.state;
+          for (let d=1; d<=TOTAL_DAYS; d++) ensureDayArray(d);
+          seedDefaultsIfNeeded();
+          saveState();
+          toast("Imported");
+          renderKPIs(); renderDayList(el("search").value); renderActiveDay();
+          renderPages(); renderGallery(); renderAdminUI();
+        }catch{ alert("Invalid import file."); }
+      };
+      inp.click();
+    });
+    el("btnReset").addEventListener("click", ()=>{
+      if (!confirm("Reset all checks + notes + site content on THIS device?")) return;
+      state = {checks:{}, notes:{}, pages:null, gallery:null, admin: state.admin};
+      for (let d=1; d<=TOTAL_DAYS; d++) ensureDayArray(d);
+      seedDefaultsIfNeeded();
+      saveState();
+      toast("Reset");
+      el("search").value = "";
+      renderKPIs(); renderDayList(""); setActiveDay(1);
+      renderPages(); renderGallery();
+    });
+
+    function updateHeroFocus(){
+      const heroDay = el("heroDay");
+      const heroRefs = el("heroRefs");
+      if (!heroDay || !heroRefs) return;
+      const day = PLAN[activeDay - 1];
+      heroDay.textContent = `Day ${activeDay}`;
+      heroRefs.textContent = day.refs.map(r => r.start === r.end ? `${r.book} ${r.start}` : `${r.book} ${r.start}-${r.end}`).join("; ");
+    }
+    el("btnJumpTop").addEventListener("click", jumpToNextIncomplete);
+    el("btnJump2").addEventListener("click", jumpToNextIncomplete);
+    el("btnExportTop").addEventListener("click", ()=> el("btnExport").click());
+
+    const DEFAULT_PAGES = {
+      service: "Sunday Service\n\n• Worship & Prayer\n• Teaching from Scripture\n• Fellowship\n\n(Replace this content in Admin.)",
+      giving: "Thank you for supporting the ministry.\n\nYour giving helps outreach, discipleship, and community needs.\n\n(Replace this content + add your giving link in Admin.)",
+      givingLink: "https://example.com/give",
+      connect: "We’d love to connect with you.\n\n• Visit us in person\n• Join a small group\n• Serve on a team\n\n(Replace this content in Admin.)",
+      galleryIntro: "A few moments from our church family. (Edit gallery items in Admin.)"
+    };
+
+    function seedDefaultsIfNeeded(){
+      if (!state.pages) state.pages = JSON.parse(JSON.stringify(DEFAULT_PAGES));
+      if (!state.gallery) state.gallery = [
+        {url:"https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=1200&q=70", title:"Worship", caption:"A moment of praise."},
+        {url:"https://images.unsplash.com/photo-1520975869015-7faba0f5be29?auto=format&fit=crop&w=1200&q=70", title:"Community", caption:"Fellowship and family."},
+        {url:"https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&w=1200&q=70", title:"Prayer", caption:"Seeking God together."},
+        {url:"https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=70", title:"Serve", caption:"Serving with joy."},
+        {url:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=70", title:"Gather", caption:"Gathering in unity."},
+        {url:"https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=70", title:"Teaching", caption:"Growing in the Word."}
+      ];
+    }
+
+    function nl2brSafe(text){
+      const esc = (text||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+      return esc.replaceAll("\n","<br/>");
+    }
+
+    function renderPages(){
+      seedDefaultsIfNeeded();
+      el("serviceContent").innerHTML = nl2brSafe(state.pages.service);
+      el("givingContent").innerHTML = nl2brSafe(state.pages.giving);
+      el("connectContent").innerHTML = nl2brSafe(state.pages.connect);
+      el("galleryIntro").innerHTML = nl2brSafe(state.pages.galleryIntro);
+      const link = (state.pages.givingLink || "").trim();
+      const givingCta = el("givingCta");
+      if (link && /^https?:\/\//i.test(link)){ givingCta.href = link; givingCta.style.opacity = "1"; }
+      else { givingCta.href = "#"; givingCta.style.opacity = ".6"; }
+    }
+
+    function shuffle(arr){ for (let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+
+    function renderGallery(){
+      seedDefaultsIfNeeded();
+      const grid = el("galleryGrid");
+      grid.innerHTML = "";
+      state.gallery.forEach((g)=>{
+        const card = document.createElement("div");
+        card.className = "gCard";
+        const img = document.createElement("img");
+        img.className = "gImg";
+        img.loading = "lazy";
+        img.src = g.url;
+        img.alt = g.title || "Gallery image";
+        const meta = document.createElement("div");
+        meta.className = "gMeta";
+        const t = document.createElement("div");
+        t.className = "gTitle";
+        t.textContent = g.title || "Gallery";
+        const s = document.createElement("div");
+        s.className = "gSub";
+        s.textContent = g.caption || "";
+        meta.appendChild(t); meta.appendChild(s);
+        card.appendChild(img); card.appendChild(meta);
+        card.addEventListener("click", ()=> openModal(g));
+        grid.appendChild(card);
+      });
+
+      const ag = el("galleryAdminGrid");
+      if (ag){
+        ag.innerHTML = "";
+        state.gallery.forEach((g, idx)=>{
+          const card = document.createElement("div");
+          card.className = "gCard";
+          const img = document.createElement("img");
+          img.className = "gImg";
+          img.loading = "lazy";
+          img.src = g.url;
+          img.alt = g.title || "Gallery image";
+          const meta = document.createElement("div");
+          meta.className = "gMeta";
+          meta.innerHTML = `
+            <div class="gTitle">${(g.title||"").replaceAll("<","&lt;")}</div>
+            <div class="gSub">${(g.caption||"").replaceAll("<","&lt;")}</div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px">
+              <button class="btnGhost btnSmall" data-open="${idx}">Preview</button>
+              <button class="btnDanger btnSmall" data-del="${idx}">Delete</button>
+            </div>
+          `;
+          card.appendChild(img); card.appendChild(meta);
+          ag.appendChild(card);
+        });
+
+        ag.querySelectorAll("button[data-open]").forEach(btn=>{
+          btn.addEventListener("click", (e)=>{ e.stopPropagation(); openModal(state.gallery[Number(btn.getAttribute("data-open"))]); });
+        });
+        ag.querySelectorAll("button[data-del]").forEach(btn=>{
+          btn.addEventListener("click", (e)=>{
+            e.stopPropagation();
+            const idx = Number(btn.getAttribute("data-del"));
+            if (!confirm("Delete this gallery item?")) return;
+            state.gallery.splice(idx,1);
+            saveState();
+            try{ if (isAdminLoggedIn()) await saveRemoteKey("gallery", state.gallery); }catch{}
+            toast("Deleted"); renderGallery();
+          });
+        });
+      }
+    }
+
+    function openModal(item){
+      const modal = el("modal");
+      el("modalTitle").textContent = item.title || "Preview";
+      el("modalCaption").textContent = item.caption || "";
+      el("modalImg").src = item.url;
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden","false");
+    }
+    function closeModal(){
+      const modal = el("modal");
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden","true");
+    }
+    el("modalClose").addEventListener("click", closeModal);
+    el("modal").addEventListener("click", (e)=>{ if (e.target.id === "modal") closeModal(); });
+    document.addEventListener("keydown", (e)=>{ if (e.key === "Escape") closeModal(); });
+
+    el("btnGalleryShuffle").addEventListener("click", async ()=>{ shuffle(state.gallery); saveState(); try{ if (isAdminLoggedIn()) await saveRemoteKey("gallery", state.gallery); }catch{} toast("Shuffled"); renderGallery(); });
+    el("btnGalleryRefresh").addEventListener("click", ()=>{ renderGallery(); toast("Refreshed"); });
+
+    
+    // --------------------
+    // Admin (Supabase email/password) — single allowed admin email
+    // --------------------
+    const BACKEND_KEY = "bible90_backend_config_v1";
+
+    function getBackendConfig(){
+      const fromFile = (window.BIBLE90_CONFIG || {});
+      const stored = (()=>{
+        try{ return JSON.parse(localStorage.getItem(BACKEND_KEY) || "null"); }catch{ return null; }
+      })();
+      const merged = { ...fromFile, ...(stored || {}), ...(state.backend || {}) };
+      return {
+        supabaseUrl: (merged.supabaseUrl || "").trim(),
+        supabaseAnonKey: (merged.supabaseAnonKey || "").trim(),
+        adminEmail: (merged.adminEmail || "").trim().toLowerCase()
+      };
+    }
+
+    function setBackendConfig(cfg){
+      state.backend = { ...getBackendConfig(), ...cfg };
+      localStorage.setItem(BACKEND_KEY, JSON.stringify(state.backend));
+      saveState();
+    }
+
+    function isBackendReady(){
+      const c = getBackendConfig();
+      return !!(c.supabaseUrl && c.supabaseAnonKey);
+    }
+
+    function makeClient(){
+      const c = getBackendConfig();
+      if (!c.supabaseUrl || !c.supabaseAnonKey) return null;
+      try{
+        return window.supabase.createClient(c.supabaseUrl, c.supabaseAnonKey);
+      }catch{
+        return null;
+      }
+    }
+
+    let sb = null;
+    let adminUser = null;
+
+    async function refreshAdminSession(){
+      sb = makeClient();
+      adminUser = null;
+      if (!sb) { renderAdminUI(); return; }
+      try{
+        const { data } = await sb.auth.getUser();
+        const user = data?.user || null;
+        const cfg = getBackendConfig();
+        if (user && cfg.adminEmail && (user.email || "").toLowerCase() === cfg.adminEmail){
+          adminUser = user;
+        } else {
+          if (user) await sb.auth.signOut();
+          adminUser = null;
+        }
+      }catch{
+        adminUser = null;
+      }
+      renderAdminUI();
+    }
+
+    function isAdminLoggedIn(){ return !!adminUser; }
+
+    function renderAdminUI(){
+      const logged = isAdminLoggedIn();
+      el("adminLoggedOut").style.display = logged ? "none" : "block";
+      el("adminLoggedIn").style.display = logged ? "block" : "none";
+      el("btnAdminLogout").style.display = logged ? "inline-flex" : "none";
+
+      const cfg = getBackendConfig();
+      const sbUrl = el("sbUrl"), sbAnon = el("sbAnon"), sbAdminEmail = el("sbAdminEmail");
+      if (sbUrl && !sbUrl.value) sbUrl.value = cfg.supabaseUrl || "";
+      if (sbAnon && !sbAnon.value) sbAnon.value = cfg.supabaseAnonKey || "";
+      if (sbAdminEmail && !sbAdminEmail.value) sbAdminEmail.value = cfg.adminEmail || "";
+    }
+
+    el("btnSaveBackend").addEventListener("click", async ()=>{
+      const supabaseUrl = (el("sbUrl").value || "").trim();
+      const supabaseAnonKey = (el("sbAnon").value || "").trim();
+      const adminEmail = (el("sbAdminEmail").value || "").trim().toLowerCase();
+      if (!supabaseUrl || !supabaseAnonKey){ alert("Please enter Supabase URL + Anon Key."); return; }
+      if (!adminEmail || !adminEmail.includes("@")){ alert("Please enter the admin email."); return; }
+      setBackendConfig({ supabaseUrl, supabaseAnonKey, adminEmail });
+      sb = makeClient();
+      toast("Backend saved");
+      try{ await loadRemoteContent(); }catch{}
+      renderPages(); renderGallery();
+      refreshAdminSession();
+    });
+
+    el("btnAdminLogout").addEventListener("click", async ()=>{
+      try{ if (sb) await sb.auth.signOut(); }catch{}
+      adminUser = null;
+      toast("Logged out");
+      renderAdminUI();
+      location.hash = "#home";
+    });
+
+    el("btnAdminLogin").addEventListener("click", async ()=>{
+      const email = (el("adminEmail").value || "").trim().toLowerCase();
+      const password = (el("adminPass").value || "").trim();
+      const cfg = getBackendConfig();
+
+      if (!isBackendReady()){
+        alert("Set Supabase URL + Anon Key first (Backend Setup).");
+        return;
+      }
+      if (!cfg.adminEmail){
+        alert("Set the allowed admin email in Backend Setup.");
+        return;
+      }
+      if (email !== cfg.adminEmail){
+        alert("This email is not allowed for admin.");
+        return;
+      }
+      if (password.length < 6){
+        alert("Password seems too short.");
+        return;
+      }
+
+      sb = makeClient();
+      try{
+        const { data, error } = await sb.auth.signInWithPassword({ email, password });
+        if (error) { alert(error.message); return; }
+        adminUser = data?.user || null;
+        toast("Logged in");
+        el("adminPass").value = "";
+        try{ await loadRemoteContent(); }catch{}
+        renderPages(); renderGallery();
+        renderAdminUI();
+      }catch(e){
+        alert("Login failed.");
+      }
+    });
+
+    // --------------------
+    // Remote content via Supabase table `site_content`
+    // Keys: 'pages' (json), 'gallery' (json)
+    // --------------------
+    async function loadRemoteContent(){
+      if (!isBackendReady()) return;
+      sb = sb || makeClient();
+      if (!sb) return;
+
+      const { data, error } = await sb.from("site_content").select("key,value").in("key", ["pages","gallery"]);
+      if (error) throw error;
+
+      const rows = (data || []);
+      const pagesRow = rows.find(r => r.key === "pages");
+      const galleryRow = rows.find(r => r.key === "gallery");
+
+      if (pagesRow?.value) state.pages = pagesRow.value;
+      if (galleryRow?.value) state.gallery = galleryRow.value;
+
+      saveState();
+    }
+
+    async function saveRemoteKey(key, value){
+      if (!isBackendReady()) throw new Error("backend not ready");
+      if (!isAdminLoggedIn()) throw new Error("not admin");
+      sb = sb || makeClient();
+      if (!sb) throw new Error("no client");
+
+      const payload = { key, value };
+      const { error } = await sb.from("site_content").upsert(payload, { onConflict: "key" });
+      if (error) throw error;
+    }
+
+
+    (async()=>{
+    // Init
+        for (let d=1; d<=TOTAL_DAYS; d++) ensureDayArray(d);
+        seedDefaultsIfNeeded();
+        saveState();
+        await refreshAdminSession();
+        try{ await loadRemoteContent(); }catch{}
+        renderKPIs();
+        renderDayList("");
+        setActiveDay(1);
+        renderPages();
+        renderGallery();
+        renderAdminUI();
+        renderRoute();
+      
+})();
+</script>
+</body>
+</html>
